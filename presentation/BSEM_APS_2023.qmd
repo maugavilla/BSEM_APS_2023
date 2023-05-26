@@ -343,6 +343,14 @@ informative
 - $p(\theta) \sim N(0, 10)$
 - $p(\theta) \sim U(0, 100)$
 
+## Strongly informative Priors
+
+- Represents a low level of uncertainty
+- Usually use to present specific hypothesis
+- Not recommended for general use in parameters
+- $p(\theta) \sim N(0, .05)$
+- $p(\theta) \sim U(0, 1)$
+
 ## Resources
 
 
