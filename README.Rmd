@@ -1,0 +1,14 @@
+---
+title: "BSEM with blavaan"
+author: "Mauricio Garnier-Villarreal"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:   
+  github_document:
+    toc: yes
+    toc_depth: 5
+editor_options:
+  chunk_output_type: inline
+---
+
+
+BSEM with blavaan workshop at APS 2023 ...
