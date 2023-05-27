@@ -339,7 +339,7 @@ your data
 - Account for uncertainty
 - Allow us to set clear boundaries, meaningful for the theory
 - Theory driven
-- Helps stabilize models with smaller sample sizes
+- Heps stabilize models with smaller sample sizes
 
 ## Prior: disadvantages
 - More decisions to make
@@ -1214,7 +1214,7 @@ $LOO = -2\sum_{i=1}^{n} log \Bigg(\frac{\sum^{S}_{s =1} w^{s}_{i}f(y_{i}|\theta^
 
 ## Bayes factor {.smaller}
 
-- In the Bayesian literature you will find the use of the Bayes factor (BF) to compare models. 
+- In the Bayesian literature you will see the use of the Bayes factor (BF) to compare models. 
 - There are a number of criticisms related to the use of the BF in BSEM, including (1) the BF is unstable for large models (like most SEMs), (2) it is highly sensitive to model priors, (3) it requires strong priors to have stable estimation of it, (4) it can require large number of posterior draws, (5) the estimation using the marginal likelihood ignores a lot of information from the posterior distributions. 
 - For more details on this discussion please see @tendeiro_review_2019 and @schad_workflow_2022. 
 - These criticisms lead us to recommend against use of the BF in everyday BSEM estimation. 
@@ -1691,7 +1691,32 @@ hypothesis(mc_out, "bet_sign[2] > .1", alpha = 0.05)
 - Model comparison
   - LOO or WAIC: IC for each model, $elpd$, $\Delta elpd$, standard error, and ratio
 
-## Resources
+## Resources {.smaller}
+
+- [Stats Camp](https://www.statscamp.org/)
+- Online
+  - [blavaan website](http://ecmerkle.github.io/blavaan/)
+  - [blavaan google group](https://groups.google.com/g/blavaan)
+  - [lavaan google group](https://groups.google.com/g/lavaan)
+  - [Stan discourse](https://discourse.mc-stan.org/)
+  - [Well Hello Stats](https://github.com/maugavilla/well_hello_stats)
+
+- Books
+  - [Bayesian Data Analysis, 3th edition](http://www.stat.columbia.edu/~gelman/book/)
+  - [Statistical Rethinking, 2nd edition](https://xcelab.net/rm/statistical-rethinking/)
+  - [Bayesian Statistics for the Social Sciences](https://www.guilford.com/books/Bayesian-Statistics-for-the-Social-Sciences/David-Kaplan/9781462516513)
+  - [Bayesian Structural Equation Modeling](https://www.guilford.com/books/Bayesian-Structural-Equation-Modeling/Sarah-Depaoli/9781462547746)
+  
+## Contact
+
+m.garniervillarreal@vu.nl
+
+[Website](https://maugavilla.github.io/)
+
+\@MauricioGarnier
+
+- Funding: Institute of Education Sciences (IES), Statistical and Research Methodology in Education. Merkle, E. C (PI), Bonifay, W., Garnier-Villarreal, M., & Rosseel, Y. Scaling Bayesian Latent Variable Models to Big Education Data.
+
 
 ## References
 
