@@ -28,6 +28,70 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
@@ -356,23 +420,24 @@ Mauricio Garnier-Villarreal
     </div>
 </div>
 
-  <p class="date">5/26/23</p>
+  <p class="date">5/27/23</p>
 </section>
 <section class="slide level2">
 
-<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-1_32c53a6ad5921f58ade6dddde63aeab4">
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-1_7fd277731cec5222fd080c23a7c00346">
 
 </div>
 </section>
-<section id="topics" class="slide level2">
+<section id="topics" class="slide level2 smaller">
 <h2>Topics</h2>
 <ul>
 <li>Introduction to Bayesian probability</li>
 <li>Evaluation of MCMC convergence and efficiency</li>
 <li>Priors: selection and relevance</li>
-<li>Prior predictive simulation</li>
+<li>Prior predictive checks</li>
 <li>BCFA: basic measurement model</li>
 <li>Model fit evaluation</li>
+<li>Model comparison</li>
 <li>BSEM: basic latent regression</li>
 <li>Probability of direction</li>
 <li>What to report</li>
@@ -623,6 +688,10 @@ p(\theta|y) \propto p(y|\theta)p(\theta)
 <h2>Convergence</h2>
 
 <img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section id="convergence-3" class="slide level2">
+<h2>Convergence</h2>
+
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
 <section id="efficiency" class="slide level2 smaller">
 <h2>Efficiency</h2>
 <ul>
@@ -726,6 +795,2669 @@ p(\theta|y) \propto p(y|\theta)p(\theta)
 <li><span class="math inline">\(p(\theta) \sim U(0, 1)\)</span></li>
 </ul>
 </section>
+<section id="priors-2" class="slide level2">
+<h2>Priors</h2>
+<ul>
+<li>Have more influence on the posterior for smaller samples</li>
+<li>Consider theory, data, and model characteristics</li>
+<li>Are scale dependent, what is a weakly informative prior in one case might be strong in another</li>
+<li>The “intended” priors might differ from the priors in the model due to model constraints, as opaque priors <span class="citation" data-cites="merkle2023opaque">(<a href="#/references" role="doc-biblioref" onclick="">Merkle et al. 2023</a>)</span></li>
+</ul>
+</section></section>
+<section>
+<section id="prior-predictive-checks" class="title-slide slide level1 center">
+<h1>Prior predictive checks</h1>
+
+</section>
+<section id="prior-predictive-checks-ppc" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<ul>
+<li>Generate data from the priors in order to asses whether a prior is appropriate <span class="citation" data-cites="Gabry_2019_vis">(<a href="#/references" role="doc-biblioref" onclick="">Gabry et al. 2019</a>)</span>.</li>
+<li>A posterior predictive check generates replicated data according to the posterior predictive distribution.</li>
+<li>In contrast, the prior predictive check generates data according to the prior predictive distribution</li>
+</ul>
+<p><span class="math inline">\(y^{sim} ∼ p(y)\)</span></p>
+</section>
+<section id="prior-predictive-checks-ppc-1" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<ul>
+<li>Like the posterior predictive distribution with no observed data, so that a PPC is nothing more than the limiting case of a posterior predictive check with no data.</li>
+<li>Simulating parameters <span class="math inline">\(θ^{sim}∼p(\theta)\)</span> according to the priors, then simulating data <span class="math inline">\(y^{sim}∼p(y∣ \theta^{sim})\)</span> according to the sampling distribution given the simulated parameters</li>
+<li>The result is a simulation from the joint distribution, <span class="math inline">\((y^{sim},θ^{sim})∼p(y,\theta)\)</span> and thus <span class="math inline">\(y^{sim}∼p(y)\)</span> is a simulation from the prior predictive distribution.</li>
+</ul>
+</section>
+<section id="prior-predictive-checks-ppc-2" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-7_7410a700897de90829f5ba7a4bf76da6">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">dpriors</span>(<span class="at">nu=</span><span class="st">"normal(3,2)"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2"></a>                  <span class="at">lambda=</span><span class="st">"normal(0.4, 2)"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3"></a>                  <span class="at">beta=</span><span class="st">"normal(0.4, 2)"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4"></a>                  <span class="at">theta=</span><span class="st">"gamma(1,1)[sd]"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>model <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="st">  # latent variable definitions</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="st">     ind60 =~ x1 + x2 + x3</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="st">     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="st">     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="st">  # regressions</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="st">    dem60 ~ ind60</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="st">    dem65 ~ ind60 + dem60</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="st">  # residual correlations</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="st">    y1 ~~ y5</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a><span class="st">    y2 ~~ y4 + y6</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="st">    y3 ~~ y7</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="st">    y4 ~~ y8</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="st">    y6 ~~ y8</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="st">'</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a></span>
+<span id="cb1-24"><a href="#cb1-24"></a>fit_wi <span class="ot">&lt;-</span> <span class="fu">bsem</span>(model, <span class="at">data=</span>PoliticalDemocracy, <span class="at">std.lv=</span>T,</span>
+<span id="cb1-25"><a href="#cb1-25"></a>            <span class="at">meanstructure=</span>T, <span class="at">test =</span> <span class="st">"none"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26"></a>            <span class="at">dp=</span>priors, <span class="at">prisamp =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="prior-predictive-checks-ppc-3" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-8_05a53ed150dd49c655176ec5c40c82c7">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="do">## factor loadings</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="fu">plot</span>(fit_wi, <span class="at">pars=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>, <span class="at">plot.type =</span> <span class="st">"dens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
+<section id="prior-predictive-checks-ppc-4" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-9_93680fc92db34d9b15fd71355c8e4b77">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="do">## factor regressions</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">plot</span>(fit_wi, <span class="at">pars=</span><span class="dv">12</span><span class="sc">:</span><span class="dv">14</span>, <span class="at">plot.type =</span> <span class="st">"dens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
+<section id="prior-predictive-checks-ppc-5" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-10_e6d99dce903f85849896810a5256265e">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="do">## residual variances</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="fu">plot</span>(fit_wi, <span class="at">pars=</span><span class="dv">15</span><span class="sc">:</span><span class="dv">31</span>, <span class="at">plot.type =</span> <span class="st">"dens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-10-1.png" width="960" class="r-stretch"></section>
+<section id="prior-predictive-checks-ppc-6" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-11_09f0a310f47b6e38dadb8fced940b3fd">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="do">## item intercepts</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">plot</span>(fit_wi, <span class="at">pars=</span><span class="dv">32</span><span class="sc">:</span><span class="dv">42</span>, <span class="at">plot.type =</span> <span class="st">"dens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
+<section id="prior-predictive-checks-ppc-7" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<ul>
+<li>Default priors</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-12_cc5c67d7c7ff273f4def288e53d67bc7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">dpriors</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               nu             alpha            lambda              beta 
+   "normal(0,32)"    "normal(0,10)"    "normal(0,10)"    "normal(0,10)" 
+            theta               psi               rho             ibpsi 
+"gamma(1,.5)[sd]" "gamma(1,.5)[sd]"       "beta(1,1)" "wishart(3,iden)" 
+              tau 
+  "normal(0,1.5)" </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-14_40ddca3609aa959d965f316582f6136f">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>fit_df <span class="ot">&lt;-</span> <span class="fu">bsem</span>(model, <span class="at">data=</span>PoliticalDemocracy, <span class="at">std.lv=</span>T,</span>
+<span id="cb8-2"><a href="#cb8-2"></a>            <span class="at">meanstructure=</span>T, <span class="at">test =</span> <span class="st">"none"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3"></a>            <span class="at">prisamp =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="prior-predictive-checks-ppc-8" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-15_ae90b893adc36c259418f591def84c7a">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="do">## factor loadings</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">plot</span>(fit_df, <span class="at">pars=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>, <span class="at">plot.type =</span> <span class="st">"dens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-15-1.png" width="960" class="r-stretch"></section>
+<section id="prior-predictive-checks-ppc-9" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-16_62504fec39158fa98619a45edf079533">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="do">## factor regressions</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">plot</span>(fit_df, <span class="at">pars=</span><span class="dv">12</span><span class="sc">:</span><span class="dv">14</span>, <span class="at">plot.type =</span> <span class="st">"dens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-16-1.png" width="960" class="r-stretch"></section>
+<section id="prior-predictive-checks-ppc-10" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-17_4338c271df962d3f61b9a871fabfe9e0">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="do">## residual variances</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">plot</span>(fit_df, <span class="at">pars=</span><span class="dv">15</span><span class="sc">:</span><span class="dv">31</span>, <span class="at">plot.type =</span> <span class="st">"dens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-17-1.png" width="960" class="r-stretch"></section>
+<section id="prior-predictive-checks-ppc-11" class="slide level2">
+<h2>Prior predictive checks (PPC)</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-18_08c89129513d020c50a13635d496df80">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="do">## item intercepts</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">plot</span>(fit_df, <span class="at">pars=</span><span class="dv">32</span><span class="sc">:</span><span class="dv">42</span>, <span class="at">plot.type =</span> <span class="st">"dens"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-18-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="bcfa-basic-measurement-model" class="title-slide slide level1 center">
+<h1>BCFA: basic measurement model</h1>
+
+</section>
+<section id="cfa-measurement-models" class="slide level2">
+<h2>CFA: measurement models</h2>
+<ul>
+<li>A construct is what the indicators share</li>
+</ul>
+
+<img data-src="cfa1.png" class="r-stretch"></section>
+<section id="bayesian-cfa" class="slide level2">
+<h2>Bayesian CFA</h2>
+<p>For this example we will use the Industrialization and Political Democracy example <span class="citation" data-cites="bollen_structural_1989">(<a href="#/references" role="doc-biblioref" onclick="">Bollen 1989</a>)</span></p>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-19_0cfd1344ccc2791b240f733e19f87279">
+
+</div>
+
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-20-1.png" width="960" class="r-stretch"></section>
+<section id="bayesian-cfa-1" class="slide level2">
+<h2>Bayesian CFA</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-21_c4cfd44b7f24b778db8d9eed18fb2c02">
+
+</div>
+
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
+<section id="measurement-models" class="slide level2">
+<h2>Measurement models</h2>
+<p>-A model is fitted to data and all models are wrong to some degree, the data may not be explained perfectly - Interpretations must involve a subjective component and solutions will not make sense - Model fit should be evaluated - Tests theoretical structure</p>
+</section>
+<section id="bayesian-cfa-2" class="slide level2">
+<h2>Bayesian CFA</h2>
+<ul>
+<li>Basic measurement model (default priors)</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-23_1ec1b6eabbe5421f301f728d580d41f4">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>mod1 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  # latent variable definitions</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="st">     ind60 =~ x1 + x2 + x3</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="st">     dem60 =~ y1 + y2 + y3 + y4</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="st">     dem65 =~ y5 + y6 + y7 + y8'</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a>f1 <span class="ot">&lt;-</span> <span class="fu">bcfa</span>(mod1, <span class="at">data=</span>PoliticalDemocracy, </span>
+<span id="cb13-8"><a href="#cb13-8"></a>           <span class="at">meanstructure=</span>T, <span class="at">std.lv=</span>T,</span>
+<span id="cb13-9"><a href="#cb13-9"></a>           <span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sample=</span><span class="dv">1000</span>, <span class="at">n.chains=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 6.956 seconds (Warm-up)
+Chain 1:                5.995 seconds (Sampling)
+Chain 1:                12.951 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 7.006 seconds (Warm-up)
+Chain 2:                5.818 seconds (Sampling)
+Chain 2:                12.824 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0.001 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 7.653 seconds (Warm-up)
+Chain 3:                5.789 seconds (Sampling)
+Chain 3:                13.442 seconds (Total)
+Chain 3: 
+Computing posterior predictives...</code></pre>
+</div>
+</div>
+</section>
+<section id="convergence-and-efficiency" class="slide level2">
+<h2>Convergence and efficiency</h2>
+<ul>
+<li>Convergence</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-24_5444d8f37a4f9d2837796ebd68f18d51">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">max</span>(<span class="fu">blavInspect</span>(f1, <span class="st">"psrf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.005153</code></pre>
+</div>
+</div>
+<ul>
+<li>Efficiency</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-25_30c0a261b9b998ce5b3226d3c70a55e9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">min</span>(<span class="fu">blavInspect</span>(f1, <span class="st">"neff"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 812.1714</code></pre>
+</div>
+</div>
+</section>
+<section id="parameter-posteriors" class="slide level2">
+<h2>Parameter posteriors</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-26_c59c58e3e77f70fa75e905abe21c996a">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">summary</span>(f1, <span class="at">rsquare=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>blavaan (0.4-7) results of 1000 samples after 1000 adapt/burnin iterations
+
+  Number of observations                            75
+
+  Statistic                                 MargLogLik         PPP
+  Value                                      -1697.119       0.032
+
+Latent Variables:
+                   Estimate  Post.SD pi.lower pi.upper     Rhat    Prior       
+  ind60 =~                                                                     
+    x1                0.702    0.075    0.572    0.856    1.005    normal(0,10)
+    x2                1.543    0.144    1.295    1.867    1.005    normal(0,10)
+    x3                1.275    0.142    1.024    1.578    1.004    normal(0,10)
+  dem60 =~                                                                     
+    y1                2.310    0.283    1.809    2.888    1.001    normal(0,10)
+    y2                3.141    0.428    2.325    4.022    1.001    normal(0,10)
+    y3                2.425    0.365    1.744    3.210    1.000    normal(0,10)
+    y4                3.025    0.348    2.372    3.740    1.001    normal(0,10)
+  dem65 =~                                                                     
+    y5                2.184    0.285    1.665    2.792    1.002    normal(0,10)
+    y6                2.772    0.359    2.110    3.513    1.001    normal(0,10)
+    y7                2.823    0.348    2.202    3.565    1.000    normal(0,10)
+    y8                2.900    0.337    2.296    3.620    1.000    normal(0,10)
+
+Covariances:
+                   Estimate  Post.SD pi.lower pi.upper     Rhat    Prior       
+  ind60 ~~                                                                     
+    dem60             0.437    0.104    0.224    0.625    1.005     lkj_corr(1)
+    dem65             0.539    0.093    0.342    0.700    1.005     lkj_corr(1)
+  dem60 ~~                                                                     
+    dem65             0.955    0.027    0.891    0.992    1.001     lkj_corr(1)
+
+Intercepts:
+                   Estimate  Post.SD pi.lower pi.upper     Rhat    Prior       
+   .x1                5.055    0.089    4.882    5.236    1.000    normal(0,32)
+   .x2                4.796    0.181    4.441    5.151    1.001    normal(0,32)
+   .x3                3.562    0.169    3.234    3.894    1.001    normal(0,32)
+   .y1                5.472    0.323    4.828    6.085    1.001    normal(0,32)
+   .y2                4.268    0.485    3.298    5.190    1.001    normal(0,32)
+   .y3                6.569    0.402    5.785    7.329    1.001    normal(0,32)
+   .y4                4.462    0.409    3.632    5.230    1.001    normal(0,32)
+   .y5                5.142    0.316    4.519    5.759    1.001    normal(0,32)
+   .y6                2.989    0.411    2.185    3.746    1.000    normal(0,32)
+   .y7                6.206    0.399    5.390    6.963    1.001    normal(0,32)
+   .y8                4.059    0.392    3.286    4.816    1.001    normal(0,32)
+    ind60             0.000                                                    
+    dem60             0.000                                                    
+    dem65             0.000                                                    
+
+Variances:
+                   Estimate  Post.SD pi.lower pi.upper     Rhat    Prior       
+   .x1                0.091    0.023    0.051    0.141    1.001 gamma(1,.5)[sd]
+   .x2                0.115    0.077    0.003    0.287    1.001 gamma(1,.5)[sd]
+   .x3                0.515    0.103    0.339    0.748    1.000 gamma(1,.5)[sd]
+   .y1                2.096    0.478    1.339    3.154    1.000 gamma(1,.5)[sd]
+   .y2                6.784    1.312    4.643    9.730    0.999 gamma(1,.5)[sd]
+   .y3                5.622    1.070    3.898    8.079    1.000 gamma(1,.5)[sd]
+   .y4                2.959    0.700    1.814    4.536    1.000 gamma(1,.5)[sd]
+   .y5                2.600    0.529    1.743    3.784    1.000 gamma(1,.5)[sd]
+   .y6                4.515    0.904    3.048    6.588    0.999 gamma(1,.5)[sd]
+   .y7                3.688    0.779    2.417    5.456    1.000 gamma(1,.5)[sd]
+   .y8                2.994    0.655    1.863    4.396    1.000 gamma(1,.5)[sd]
+    ind60             1.000                                                    
+    dem60             1.000                                                    
+    dem65             1.000                                                    
+
+R-Square:
+                   Estimate
+    x1                0.844
+    x2                0.954
+    x3                0.760
+    y1                0.718
+    y2                0.593
+    y3                0.511
+    y4                0.756
+    y5                0.647
+    y6                0.630
+    y7                0.684
+    y8                0.738</code></pre>
+</div>
+</div>
+</section>
+<section id="bayesian-cfa-3" class="slide level2">
+<h2>Bayesian CFA</h2>
+<ul>
+<li>Basic measurement model (weakly informative priors)</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-27_966ac29b3671d18025692b3109496593">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">dpriors</span>(<span class="at">nu=</span><span class="st">"normal(3,2)"</span>,</span>
+<span id="cb21-2"><a href="#cb21-2"></a>                  <span class="at">lambda=</span><span class="st">"normal(1, 3)"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3"></a>                  <span class="at">theta=</span><span class="st">"gamma(1,1)[sd]"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4"></a></span>
+<span id="cb21-5"><a href="#cb21-5"></a>mod1 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb21-6"><a href="#cb21-6"></a><span class="st">  # latent variable definitions</span></span>
+<span id="cb21-7"><a href="#cb21-7"></a><span class="st">     ind60 =~ x1 + x2 + x3</span></span>
+<span id="cb21-8"><a href="#cb21-8"></a><span class="st">     dem60 =~ y1 + y2 + y3 + y4</span></span>
+<span id="cb21-9"><a href="#cb21-9"></a><span class="st">     dem65 =~ y5 + y6 + y7 + y8'</span></span>
+<span id="cb21-10"><a href="#cb21-10"></a></span>
+<span id="cb21-11"><a href="#cb21-11"></a>f2 <span class="ot">&lt;-</span> <span class="fu">bcfa</span>(mod1, <span class="at">data=</span>PoliticalDemocracy, </span>
+<span id="cb21-12"><a href="#cb21-12"></a>           <span class="at">meanstructure=</span>T, <span class="at">std.lv=</span>T, <span class="at">dp=</span>priors,</span>
+<span id="cb21-13"><a href="#cb21-13"></a>           <span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sample=</span><span class="dv">1000</span>, <span class="at">n.chains=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0.001 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 6.781 seconds (Warm-up)
+Chain 1:                5.697 seconds (Sampling)
+Chain 1:                12.478 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 6.569 seconds (Warm-up)
+Chain 2:                5.505 seconds (Sampling)
+Chain 2:                12.074 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 6.323 seconds (Warm-up)
+Chain 3:                5.501 seconds (Sampling)
+Chain 3:                11.824 seconds (Total)
+Chain 3: 
+Computing posterior predictives...</code></pre>
+</div>
+</div>
+</section>
+<section id="convergence-and-efficiency-1" class="slide level2">
+<h2>Convergence and efficiency</h2>
+<ul>
+<li>Convergence</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-28_23637f042e24aad63b97c8ef007a53cf">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="fu">max</span>(<span class="fu">blavInspect</span>(f2, <span class="st">"psrf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.003146</code></pre>
+</div>
+</div>
+<ul>
+<li>Efficiency</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-29_da3b9385d28df975255b84b2d437403a">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="fu">min</span>(<span class="fu">blavInspect</span>(f2, <span class="st">"neff"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 986.8131</code></pre>
+</div>
+</div>
+</section>
+<section id="parameter-posteriors-1" class="slide level2">
+<h2>Parameter posteriors</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-30_a167c3ff2b6b52d4bdcc9b8030f67b0a">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">summary</span>(f2, <span class="at">rsquare=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>blavaan (0.4-7) results of 1000 samples after 1000 adapt/burnin iterations
+
+  Number of observations                            75
+
+  Statistic                                 MargLogLik         PPP
+  Value                                      -1667.765       0.035
+
+Latent Variables:
+                   Estimate  Post.SD pi.lower pi.upper     Rhat    Prior      
+  ind60 =~                                                                    
+    x1                0.698    0.069    0.574    0.845    1.002   normal(1, 3)
+    x2                1.534    0.140    1.288    1.826    1.002   normal(1, 3)
+    x3                1.269    0.139    1.016    1.564    1.002   normal(1, 3)
+  dem60 =~                                                                    
+    y1                2.273    0.263    1.797    2.814    1.001   normal(1, 3)
+    y2                3.072    0.406    2.315    3.883    1.001   normal(1, 3)
+    y3                2.388    0.357    1.713    3.145    1.000   normal(1, 3)
+    y4                2.971    0.323    2.363    3.635    1.000   normal(1, 3)
+  dem65 =~                                                                    
+    y5                2.141    0.273    1.636    2.701    1.002   normal(1, 3)
+    y6                2.717    0.342    2.092    3.409    1.001   normal(1, 3)
+    y7                2.769    0.329    2.174    3.453    1.002   normal(1, 3)
+    y8                2.843    0.313    2.252    3.479    1.001   normal(1, 3)
+
+Covariances:
+                   Estimate  Post.SD pi.lower pi.upper     Rhat    Prior      
+  ind60 ~~                                                                    
+    dem60             0.426    0.107    0.203    0.623    1.003    lkj_corr(1)
+    dem65             0.531    0.095    0.335    0.704    1.003    lkj_corr(1)
+  dem60 ~~                                                                    
+    dem65             0.952    0.028    0.887    0.992    1.000    lkj_corr(1)
+
+Intercepts:
+                   Estimate  Post.SD pi.lower pi.upper     Rhat    Prior      
+   .x1                5.006    0.087    4.838    5.174    1.002    normal(3,2)
+   .x2                4.688    0.180    4.340    5.037    1.003    normal(3,2)
+   .x3                3.473    0.168    3.154    3.795    1.001    normal(3,2)
+   .y1                5.186    0.294    4.596    5.772    1.001    normal(3,2)
+   .y2                3.887    0.440    3.029    4.732    1.000    normal(3,2)
+   .y3                6.225    0.374    5.477    6.953    1.000    normal(3,2)
+   .y4                4.096    0.370    3.377    4.827    1.001    normal(3,2)
+   .y5                4.871    0.298    4.295    5.445    1.001    normal(3,2)
+   .y6                2.673    0.381    1.930    3.430    1.001    normal(3,2)
+   .y7                5.840    0.368    5.075    6.547    1.000    normal(3,2)
+   .y8                3.704    0.357    2.985    4.409    1.001    normal(3,2)
+    ind60             0.000                                                   
+    dem60             0.000                                                   
+    dem65             0.000                                                   
+
+Variances:
+                   Estimate  Post.SD pi.lower pi.upper     Rhat    Prior      
+   .x1                0.091    0.023    0.050    0.140    1.000 gamma(1,1)[sd]
+   .x2                0.113    0.077    0.001    0.288    1.000 gamma(1,1)[sd]
+   .x3                0.514    0.104    0.340    0.750    0.999 gamma(1,1)[sd]
+   .y1                2.057    0.438    1.305    3.010    1.000 gamma(1,1)[sd]
+   .y2                6.669    1.282    4.561    9.418    0.999 gamma(1,1)[sd]
+   .y3                5.491    0.999    3.843    7.737    1.000 gamma(1,1)[sd]
+   .y4                2.931    0.677    1.777    4.376    0.999 gamma(1,1)[sd]
+   .y5                2.564    0.491    1.745    3.679    0.999 gamma(1,1)[sd]
+   .y6                4.433    0.845    3.045    6.354    0.999 gamma(1,1)[sd]
+   .y7                3.638    0.750    2.410    5.301    1.000 gamma(1,1)[sd]
+   .y8                2.939    0.648    1.856    4.383    1.000 gamma(1,1)[sd]
+    ind60             1.000                                                   
+    dem60             1.000                                                   
+    dem65             1.000                                                   
+
+R-Square:
+                   Estimate
+    x1                0.842
+    x2                0.954
+    x3                0.758
+    y1                0.715
+    y2                0.586
+    y3                0.509
+    y4                0.751
+    y5                0.641
+    y6                0.625
+    y7                0.678
+    y8                0.733</code></pre>
+</div>
+</div>
+</section>
+<section id="cross-time-residuals" class="slide level2">
+<h2>Cross time residuals</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-31_e0144e4f2e1af6c15ce1c6feb988f0a4">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>mod3 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="st">  # latent variable definitions</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="st">     ind60 =~ x1 + x2 + x3</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a><span class="st">     dem60 =~ y1 + y2 + y3 + y4</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a><span class="st">     dem65 =~ y5 + y6 + y7 + y8</span></span>
+<span id="cb29-6"><a href="#cb29-6"></a></span>
+<span id="cb29-7"><a href="#cb29-7"></a><span class="st">  # residual correlations</span></span>
+<span id="cb29-8"><a href="#cb29-8"></a><span class="st">    y1 ~~ y5</span></span>
+<span id="cb29-9"><a href="#cb29-9"></a><span class="st">    y2 ~~ y6</span></span>
+<span id="cb29-10"><a href="#cb29-10"></a><span class="st">    y3 ~~ y7</span></span>
+<span id="cb29-11"><a href="#cb29-11"></a><span class="st">    y4 ~~ y8</span></span>
+<span id="cb29-12"><a href="#cb29-12"></a><span class="st">'</span></span>
+<span id="cb29-13"><a href="#cb29-13"></a></span>
+<span id="cb29-14"><a href="#cb29-14"></a>f3 <span class="ot">&lt;-</span> <span class="fu">bcfa</span>(mod3, <span class="at">data=</span>PoliticalDemocracy, </span>
+<span id="cb29-15"><a href="#cb29-15"></a>           <span class="at">meanstructure=</span>T, <span class="at">std.lv=</span>T, <span class="at">dp=</span>priors,</span>
+<span id="cb29-16"><a href="#cb29-16"></a>           <span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sample=</span><span class="dv">1000</span>, <span class="at">n.chains=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 7.209 seconds (Warm-up)
+Chain 1:                6.217 seconds (Sampling)
+Chain 1:                13.426 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 8.033 seconds (Warm-up)
+Chain 2:                6.125 seconds (Sampling)
+Chain 2:                14.158 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0.001 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 7.219 seconds (Warm-up)
+Chain 3:                5.893 seconds (Sampling)
+Chain 3:                13.112 seconds (Total)
+Chain 3: 
+Computing posterior predictives...</code></pre>
+</div>
+</div>
+</section>
+<section id="convergence-and-efficiency-2" class="slide level2">
+<h2>Convergence and efficiency</h2>
+<ul>
+<li>Convergence</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-32_f126efe9a3444055a4a381b4f60aca7b">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="fu">max</span>(<span class="fu">blavInspect</span>(f3, <span class="st">"psrf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.003599</code></pre>
+</div>
+</div>
+<ul>
+<li>Efficiency</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-33_a172eb19675cd64ab66196b55154b2f5">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">min</span>(<span class="fu">blavInspect</span>(f3, <span class="st">"neff"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 881.0013</code></pre>
+</div>
+</div>
+</section>
+<section id="parameter-posteriors-2" class="slide level2">
+<h2>Parameter posteriors</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-34_eb4e7abb26eb376df27116406c8e8adf">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="fu">summary</span>(f3, <span class="at">standardized=</span>T, <span class="at">rsquare=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>blavaan (0.4-7) results of 1000 samples after 1000 adapt/burnin iterations
+
+  Number of observations                            75
+
+  Statistic                                 MargLogLik         PPP
+  Value                                             NA       0.236
+
+Latent Variables:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+  ind60 =~                                                              
+    x1                0.698    0.071    0.572    0.850    0.698    0.917
+    x2                1.535    0.138    1.292    1.821    1.535    0.977
+    x3                1.267    0.141    1.008    1.560    1.267    0.870
+  dem60 =~                                                              
+    y1                2.219    0.272    1.711    2.785    2.219    0.824
+    y2                3.063    0.413    2.310    3.895    3.063    0.762
+    y3                2.349    0.367    1.652    3.094    2.349    0.701
+    y4                3.050    0.335    2.415    3.736    3.050    0.884
+  dem65 =~                                                              
+    y5                2.079    0.277    1.567    2.632    2.079    0.777
+    y6                2.734    0.354    2.085    3.483    2.734    0.792
+    y7                2.768    0.338    2.143    3.479    2.768    0.819
+    y8                2.921    0.330    2.326    3.622    2.921    0.874
+     Rhat    Prior      
+                        
+    1.000   normal(1, 3)
+    1.000   normal(1, 3)
+    1.000   normal(1, 3)
+                        
+    1.000   normal(1, 3)
+    1.000   normal(1, 3)
+    1.001   normal(1, 3)
+    1.000   normal(1, 3)
+                        
+    1.000   normal(1, 3)
+    1.000   normal(1, 3)
+    0.999   normal(1, 3)
+    1.000   normal(1, 3)
+
+Covariances:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+ .y1 ~~                                                                 
+   .y5                0.898    0.424    0.169    1.835    0.898    0.350
+ .y2 ~~                                                                 
+   .y6                1.915    0.778    0.552    3.580    1.915    0.349
+ .y3 ~~                                                                 
+   .y7                1.288    0.671    0.059    2.743    1.288    0.278
+ .y4 ~~                                                                 
+   .y8                0.184    0.506   -0.738    1.217    0.184    0.070
+  ind60 ~~                                                              
+    dem60             0.430    0.104    0.218    0.622    0.430    0.430
+    dem65             0.537    0.093    0.341    0.702    0.537    0.537
+  dem60 ~~                                                              
+    dem65             0.927    0.033    0.854    0.980    0.927    0.927
+     Rhat    Prior      
+                        
+    1.000      beta(1,1)
+                        
+    1.000      beta(1,1)
+                        
+    1.000      beta(1,1)
+                        
+    1.001      beta(1,1)
+                        
+    1.001    lkj_corr(1)
+    1.000    lkj_corr(1)
+                        
+    1.001    lkj_corr(1)
+
+Intercepts:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+   .x1                5.007    0.088    4.832    5.175    5.007    6.581
+   .x2                4.690    0.182    4.329    5.037    4.690    2.986
+   .x3                3.472    0.170    3.141    3.797    3.472    2.386
+   .y1                5.199    0.298    4.614    5.804    5.199    1.931
+   .y2                3.909    0.443    3.051    4.762    3.909    0.973
+   .y3                6.230    0.375    5.499    6.949    6.230    1.860
+   .y4                4.110    0.381    3.364    4.847    4.110    1.191
+   .y5                4.884    0.300    4.305    5.468    4.884    1.825
+   .y6                2.679    0.386    1.911    3.437    2.679    0.776
+   .y7                5.843    0.372    5.109    6.559    5.843    1.729
+   .y8                3.721    0.367    3.006    4.429    3.721    1.113
+    ind60             0.000                               0.000    0.000
+    dem60             0.000                               0.000    0.000
+    dem65             0.000                               0.000    0.000
+     Rhat    Prior      
+    1.004    normal(3,2)
+    1.003    normal(3,2)
+    1.003    normal(3,2)
+    1.002    normal(3,2)
+    1.001    normal(3,2)
+    1.000    normal(3,2)
+    1.002    normal(3,2)
+    1.002    normal(3,2)
+    1.003    normal(3,2)
+    1.002    normal(3,2)
+    1.003    normal(3,2)
+                        
+                        
+                        
+
+Variances:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+   .x1                0.092    0.022    0.053    0.141    0.092    0.158
+   .x2                0.111    0.078    0.001    0.285    0.111    0.045
+   .x3                0.513    0.102    0.339    0.740    0.513    0.242
+   .y1                2.326    0.557    1.381    3.565    2.326    0.321
+   .y2                6.772    1.280    4.620    9.586    6.772    0.419
+   .y3                5.702    1.072    3.922    8.029    5.702    0.508
+   .y4                2.599    0.791    1.168    4.256    2.599    0.218
+   .y5                2.837    0.595    1.882    4.201    2.837    0.396
+   .y6                4.450    0.854    3.008    6.383    4.450    0.373
+   .y7                3.762    0.792    2.396    5.517    3.762    0.329
+   .y8                2.638    0.708    1.419    4.215    2.638    0.236
+    ind60             1.000                               1.000    1.000
+    dem60             1.000                               1.000    1.000
+    dem65             1.000                               1.000    1.000
+     Rhat    Prior      
+    1.001 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.001 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.001 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    1.001 gamma(1,1)[sd]
+                        
+                        
+                        
+
+R-Square:
+                   Estimate
+    x1                0.842
+    x2                0.955
+    x3                0.758
+    y1                0.679
+    y2                0.581
+    y3                0.492
+    y4                0.782
+    y5                0.604
+    y6                0.627
+    y7                0.671
+    y8                0.764</code></pre>
+</div>
+</div>
+</section>
+<section id="cross-time-factor-loadings" class="slide level2">
+<h2>Cross time factor loadings</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-35_03ef6adc138523bf6763e6aa0e8b9eee">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>mod4 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a><span class="st">  # latent variable definitions</span></span>
+<span id="cb37-3"><a href="#cb37-3"></a><span class="st">     ind60 =~ x1 + x2 + x3</span></span>
+<span id="cb37-4"><a href="#cb37-4"></a><span class="st">     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4</span></span>
+<span id="cb37-5"><a href="#cb37-5"></a><span class="st">     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8</span></span>
+<span id="cb37-6"><a href="#cb37-6"></a></span>
+<span id="cb37-7"><a href="#cb37-7"></a><span class="st">  # residual correlations</span></span>
+<span id="cb37-8"><a href="#cb37-8"></a><span class="st">    y1 ~~ y5</span></span>
+<span id="cb37-9"><a href="#cb37-9"></a><span class="st">    y2 ~~ y6</span></span>
+<span id="cb37-10"><a href="#cb37-10"></a><span class="st">    y3 ~~ y7</span></span>
+<span id="cb37-11"><a href="#cb37-11"></a><span class="st">    y4 ~~ y8</span></span>
+<span id="cb37-12"><a href="#cb37-12"></a><span class="st">'</span></span>
+<span id="cb37-13"><a href="#cb37-13"></a></span>
+<span id="cb37-14"><a href="#cb37-14"></a>f4 <span class="ot">&lt;-</span> <span class="fu">bcfa</span>(mod4, <span class="at">data=</span>PoliticalDemocracy, </span>
+<span id="cb37-15"><a href="#cb37-15"></a>           <span class="at">meanstructure=</span>T, <span class="at">std.lv=</span>T, <span class="at">dp=</span>priors,</span>
+<span id="cb37-16"><a href="#cb37-16"></a>           <span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sample=</span><span class="dv">1000</span>, <span class="at">n.chains=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 8.551 seconds (Warm-up)
+Chain 1:                6.613 seconds (Sampling)
+Chain 1:                15.164 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 10.655 seconds (Warm-up)
+Chain 2:                6.897 seconds (Sampling)
+Chain 2:                17.552 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 7.34 seconds (Warm-up)
+Chain 3:                5.846 seconds (Sampling)
+Chain 3:                13.186 seconds (Total)
+Chain 3: 
+Computing posterior predictives...</code></pre>
+</div>
+</div>
+</section>
+<section id="convergence-and-efficiency-3" class="slide level2">
+<h2>Convergence and efficiency</h2>
+<ul>
+<li>Convergence</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-36_2d51b75d6792a878830af0beed4dd890">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="fu">max</span>(<span class="fu">blavInspect</span>(f4, <span class="st">"psrf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.003678</code></pre>
+</div>
+</div>
+<ul>
+<li>Efficiency</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-37_174dd469a3694318db83f0f2b00e95e1">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="fu">min</span>(<span class="fu">blavInspect</span>(f4, <span class="st">"neff"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1063.355</code></pre>
+</div>
+</div>
+</section>
+<section id="parameter-posteriors-3" class="slide level2">
+<h2>Parameter posteriors</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-38_830fe251d7295d6dc46e6ad126c392b1">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="fu">summary</span>(f4, <span class="at">standardized=</span>T, <span class="at">rsquare=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>blavaan (0.4-7) results of 1000 samples after 1000 adapt/burnin iterations
+
+  Number of observations                            75
+
+  Statistic                                 MargLogLik         PPP
+  Value                                             NA       0.263
+
+Latent Variables:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+  ind60 =~                                                              
+    x1                0.698    0.070    0.570    0.845    0.698    0.918
+    x2                1.534    0.137    1.288    1.826    1.534    0.977
+    x3                1.267    0.138    1.024    1.567    1.267    0.871
+  dem60 =~                                                              
+    y1         (a)    2.129    0.249    1.673    2.668    2.129    0.814
+    y2         (b)    2.811    0.323    2.212    3.481    2.811    0.729
+    y3         (c)    2.569    0.305    2.003    3.187    2.569    0.735
+    y4         (d)    2.941    0.281    2.415    3.507    2.941    0.875
+  dem65 =~                                                              
+    y5         (a)    2.129    0.249    1.673    2.668    2.129    0.785
+    y6         (b)    2.811    0.323    2.212    3.481    2.811    0.802
+    y7         (c)    2.569    0.305    2.003    3.187    2.569    0.793
+    y8         (d)    2.941    0.281    2.415    3.507    2.941    0.878
+     Rhat    Prior      
+                        
+    1.000   normal(1, 3)
+    1.000   normal(1, 3)
+    1.000   normal(1, 3)
+                        
+    1.000   normal(1, 3)
+    0.999   normal(1, 3)
+    1.000   normal(1, 3)
+    1.000   normal(1, 3)
+                        
+    1.000               
+    0.999               
+    1.000               
+    1.000               
+
+Covariances:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+ .y1 ~~                                                                 
+   .y5                0.909    0.423    0.187    1.832    0.909    0.355
+ .y2 ~~                                                                 
+   .y6                1.978    0.779    0.586    3.714    1.978    0.357
+ .y3 ~~                                                                 
+   .y7                1.237    0.651    0.051    2.634    1.237    0.265
+ .y4 ~~                                                                 
+   .y8                0.185    0.538   -0.792    1.320    0.185    0.071
+  ind60 ~~                                                              
+    dem60             0.432    0.102    0.218    0.618    0.432    0.432
+    dem65             0.540    0.092    0.345    0.705    0.540    0.540
+  dem60 ~~                                                              
+    dem65             0.927    0.032    0.855    0.979    0.927    0.927
+     Rhat    Prior      
+                        
+    1.002      beta(1,1)
+                        
+    1.000      beta(1,1)
+                        
+    1.000      beta(1,1)
+                        
+    1.001      beta(1,1)
+                        
+    1.000    lkj_corr(1)
+    1.000    lkj_corr(1)
+                        
+    1.001    lkj_corr(1)
+
+Intercepts:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+   .x1                5.010    0.085    4.843    5.175    5.010    6.589
+   .x2                4.693    0.173    4.338    5.021    4.693    2.989
+   .x3                3.476    0.164    3.150    3.795    3.476    2.390
+   .y1                5.218    0.280    4.682    5.759    5.218    1.993
+   .y2                3.943    0.418    3.109    4.754    3.943    1.023
+   .y3                6.216    0.378    5.481    6.921    6.216    1.779
+   .y4                4.129    0.359    3.407    4.827    4.129    1.229
+   .y5                4.888    0.293    4.313    5.456    4.888    1.801
+   .y6                2.678    0.381    1.893    3.407    2.678    0.764
+   .y7                5.876    0.351    5.175    6.544    5.876    1.814
+   .y8                3.727    0.358    2.999    4.396    3.727    1.113
+    ind60             0.000                               0.000    0.000
+    dem60             0.000                               0.000    0.000
+    dem65             0.000                               0.000    0.000
+     Rhat    Prior      
+    1.001    normal(3,2)
+    1.001    normal(3,2)
+    1.000    normal(3,2)
+    1.000    normal(3,2)
+    1.000    normal(3,2)
+    1.002    normal(3,2)
+    1.001    normal(3,2)
+    1.000    normal(3,2)
+    1.000    normal(3,2)
+    1.001    normal(3,2)
+    1.001    normal(3,2)
+                        
+                        
+                        
+
+Variances:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+   .x1                0.091    0.022    0.052    0.139    0.091    0.158
+   .x2                0.112    0.076    0.001    0.278    0.112    0.046
+   .x3                0.511    0.102    0.341    0.740    0.511    0.241
+   .y1                2.317    0.568    1.386    3.653    2.317    0.338
+   .y2                6.968    1.285    4.847    9.861    6.968    0.469
+   .y3                5.606    1.072    3.791    7.977    5.606    0.459
+   .y4                2.636    0.784    1.312    4.351    2.636    0.234
+   .y5                2.828    0.574    1.851    4.115    2.828    0.384
+   .y6                4.397    0.892    2.897    6.378    4.397    0.358
+   .y7                3.888    0.809    2.537    5.665    3.888    0.371
+   .y8                2.568    0.679    1.387    4.016    2.568    0.229
+    ind60             1.000                               1.000    1.000
+    dem60             1.000                               1.000    1.000
+    dem65             1.000                               1.000    1.000
+     Rhat    Prior      
+    1.001 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.004 gamma(1,1)[sd]
+                        
+                        
+                        
+
+R-Square:
+                   Estimate
+    x1                0.842
+    x2                0.954
+    x3                0.759
+    y1                0.662
+    y2                0.531
+    y3                0.541
+    y4                0.766
+    y5                0.616
+    y6                0.642
+    y7                0.629
+    y8                0.771</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="model-fit-evaluation" class="title-slide slide level1 center">
+<h1>Model fit evaluation</h1>
+
+</section>
+<section id="model-fit" class="slide level2">
+<h2>Model fit</h2>
+<p>“With respect to model fit, researchers do not seem adequately sensitive to the fundamental reality that there is no true model…, that all models are wrong to some degree, even in the population, and that the best one can hope for is to identify a parsimonious, substantively meaningful model that fits observed data adequately well. At the same time, one must recognize that there may well be other models that fit the data to approximately the same degree… It is clear that a finding of good fit does not imply that a model is correct or true, but only plausible” - MacCallum &amp; Austin, 2000</p>
+</section>
+<section id="posterior-predictive-p-value" class="slide level2 smaller">
+<h2>Posterior predictive <span class="math inline">\(p\)</span>-value</h2>
+<ul>
+<li>Measure of the model’s absolute fit</li>
+<li>Compares observed likelihood ratio test statistics to likelihood ratio test statistics generated from the model’s posterior predictive distribution.
+<ul>
+<li>Compute the observed LRT statistic</li>
+<li>Generate artificial data from the model</li>
+<li>Compute the posterior predictive LRT of the artificial data</li>
+<li>Record which LRT is higher</li>
+</ul></li>
+<li>The <span class="math inline">\(PPP\)</span> is the proportion of times the posterior LRT is larger.</li>
+<li>Perfect fit is 0.5</li>
+</ul>
+</section>
+<section id="posterior-predictive-p-value-1" class="slide level2">
+<h2>Posterior predictive <span class="math inline">\(p\)</span>-value</h2>
+<ul>
+<li>In practice behaves similar to the <span class="math inline">\(\chi^2\)</span> <span class="math inline">\(p\)</span>-value in frequentist SEM</li>
+<li>As sample size increases will reject models for small deviations</li>
+<li>Not recommended to use as general practice</li>
+</ul>
+</section>
+<section id="overall-model-fit-approximate-indices" class="slide level2">
+<h2>Overall model fit (approximate indices)</h2>
+<ul>
+<li>One of the first steps is to evaluate the model’s global fit</li>
+<li>Commonly done by presenting multiple fit indices, with some of the most common being based on the model’s <span class="math inline">\(\chi^2\)</span>.</li>
+<li>We have developed Bayesian versions of these indices <span class="citation" data-cites="garnier_adapting_2020">(<a href="#/references" role="doc-biblioref" onclick="">Garnier-Villarreal and Jorgensen 2020</a>)</span> that can be computed with <code>blavaan</code></li>
+</ul>
+</section>
+<section id="noncentrality-based-fit-indices" class="slide level2">
+<h2>Noncentrality-Based Fit Indices</h2>
+<ul>
+<li>This group of indices compares the hypothesized model against the perfect saturated model.</li>
+<li>It specifically uses the noncentrality parameter <span class="math inline">\(\hat{\lambda} = \chi^2 - df\)</span>, with the <span class="math inline">\(df\)</span> being adjusted by different model/data characteristics.</li>
+<li>Indices include Root Mean Square Error of approximation (RMSEA), McDonald’s centrality index (Mc), gamma-hat (<span class="math inline">\(\hat{\Gamma}\)</span>), and adjusted gamma-hat (<span class="math inline">\(\hat{\Gamma}_{adj}\)</span>).</li>
+</ul>
+</section>
+<section id="incremental-fit-indices" class="slide level2">
+<h2>Incremental Fit Indices</h2>
+<ul>
+<li>Compares the hypothesized model with the <em>worst</em> possible model, so they are called incremental indices.</li>
+<li>Comparing your model’s <span class="math inline">\(\chi^2_H\)</span> to the <em>null</em> model’s <span class="math inline">\(\chi^2_0\)</span> in different ways.</li>
+<li>Including the Comparative Fit Index (CFI), Tucker-Lewis Index (TLI), and Normed Fit Index (NFI).</li>
+</ul>
+</section>
+<section id="model-fit-in-blavaan" class="slide level2">
+<h2>Model fit in <code>blavaan</code></h2>
+<ul>
+<li>We can directly calculate the noncentrality fit indices</li>
+<li>To estimate the incremental indices we need to estimate the <em>null</em> model fo comparison</li>
+</ul>
+</section>
+<section id="null-model" class="slide level2">
+<h2>Null model</h2>
+<ul>
+<li>Standard null model: only estimate variances and means of the indicators</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-39_e203f34317f794af1f2111c3b08f9dda">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>HS.model_null <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a><span class="st">x1 ~~ x1 </span></span>
+<span id="cb45-3"><a href="#cb45-3"></a><span class="st">x2 ~~ x2 </span></span>
+<span id="cb45-4"><a href="#cb45-4"></a><span class="st">x3 ~~ x3</span></span>
+<span id="cb45-5"><a href="#cb45-5"></a><span class="st">y1 ~~ y1</span></span>
+<span id="cb45-6"><a href="#cb45-6"></a><span class="st">y2 ~~ y2</span></span>
+<span id="cb45-7"><a href="#cb45-7"></a><span class="st">y3 ~~ y3</span></span>
+<span id="cb45-8"><a href="#cb45-8"></a><span class="st">y4 ~~ y4</span></span>
+<span id="cb45-9"><a href="#cb45-9"></a><span class="st">y5 ~~ y5</span></span>
+<span id="cb45-10"><a href="#cb45-10"></a><span class="st">y6 ~~ y6</span></span>
+<span id="cb45-11"><a href="#cb45-11"></a><span class="st">y7 ~~ y7</span></span>
+<span id="cb45-12"><a href="#cb45-12"></a><span class="st">y8 ~~ y8'</span></span>
+<span id="cb45-13"><a href="#cb45-13"></a></span>
+<span id="cb45-14"><a href="#cb45-14"></a>fit_null <span class="ot">&lt;-</span> <span class="fu">bcfa</span>(HS.model_null, </span>
+<span id="cb45-15"><a href="#cb45-15"></a>                 <span class="at">data=</span>PoliticalDemocracy,</span>
+<span id="cb45-16"><a href="#cb45-16"></a>                 <span class="at">meanstructure=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0.001 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 1500 [  0%]  (Warmup)
+Chain 1: Iteration:  150 / 1500 [ 10%]  (Warmup)
+Chain 1: Iteration:  300 / 1500 [ 20%]  (Warmup)
+Chain 1: Iteration:  450 / 1500 [ 30%]  (Warmup)
+Chain 1: Iteration:  501 / 1500 [ 33%]  (Sampling)
+Chain 1: Iteration:  650 / 1500 [ 43%]  (Sampling)
+Chain 1: Iteration:  800 / 1500 [ 53%]  (Sampling)
+Chain 1: Iteration:  950 / 1500 [ 63%]  (Sampling)
+Chain 1: Iteration: 1100 / 1500 [ 73%]  (Sampling)
+Chain 1: Iteration: 1250 / 1500 [ 83%]  (Sampling)
+Chain 1: Iteration: 1400 / 1500 [ 93%]  (Sampling)
+Chain 1: Iteration: 1500 / 1500 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 1.828 seconds (Warm-up)
+Chain 1:                2.683 seconds (Sampling)
+Chain 1:                4.511 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 1500 [  0%]  (Warmup)
+Chain 2: Iteration:  150 / 1500 [ 10%]  (Warmup)
+Chain 2: Iteration:  300 / 1500 [ 20%]  (Warmup)
+Chain 2: Iteration:  450 / 1500 [ 30%]  (Warmup)
+Chain 2: Iteration:  501 / 1500 [ 33%]  (Sampling)
+Chain 2: Iteration:  650 / 1500 [ 43%]  (Sampling)
+Chain 2: Iteration:  800 / 1500 [ 53%]  (Sampling)
+Chain 2: Iteration:  950 / 1500 [ 63%]  (Sampling)
+Chain 2: Iteration: 1100 / 1500 [ 73%]  (Sampling)
+Chain 2: Iteration: 1250 / 1500 [ 83%]  (Sampling)
+Chain 2: Iteration: 1400 / 1500 [ 93%]  (Sampling)
+Chain 2: Iteration: 1500 / 1500 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 1.828 seconds (Warm-up)
+Chain 2:                2.717 seconds (Sampling)
+Chain 2:                4.545 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 1500 [  0%]  (Warmup)
+Chain 3: Iteration:  150 / 1500 [ 10%]  (Warmup)
+Chain 3: Iteration:  300 / 1500 [ 20%]  (Warmup)
+Chain 3: Iteration:  450 / 1500 [ 30%]  (Warmup)
+Chain 3: Iteration:  501 / 1500 [ 33%]  (Sampling)
+Chain 3: Iteration:  650 / 1500 [ 43%]  (Sampling)
+Chain 3: Iteration:  800 / 1500 [ 53%]  (Sampling)
+Chain 3: Iteration:  950 / 1500 [ 63%]  (Sampling)
+Chain 3: Iteration: 1100 / 1500 [ 73%]  (Sampling)
+Chain 3: Iteration: 1250 / 1500 [ 83%]  (Sampling)
+Chain 3: Iteration: 1400 / 1500 [ 93%]  (Sampling)
+Chain 3: Iteration: 1500 / 1500 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 1.822 seconds (Warm-up)
+Chain 3:                2.679 seconds (Sampling)
+Chain 3:                4.501 seconds (Total)
+Chain 3: 
+Computing posterior predictives...</code></pre>
+</div>
+</div>
+</section>
+<section id="convergence-and-efficiency-4" class="slide level2">
+<h2>Convergence and efficiency</h2>
+<ul>
+<li>Convergence</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-40_9f97942906e0a76e46b2666946d9ee5f">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="fu">max</span>(<span class="fu">blavInspect</span>(fit_null, <span class="st">"psrf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9999903</code></pre>
+</div>
+</div>
+<ul>
+<li>Efficiency</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-41_4571e92c74f7cb91891af2dcb661d5e1">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="fu">min</span>(<span class="fu">blavInspect</span>(fit_null, <span class="st">"neff"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4906.293</code></pre>
+</div>
+</div>
+</section>
+<section id="bayesian-fit-indices" class="slide level2">
+<h2>Bayesian fit indices</h2>
+<ul>
+<li>Basic measurement model (no loadings constraints or residual correlations)</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-42_4d4953640f492c1f5a8d813c854bcf5b">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>fits_all <span class="ot">&lt;-</span> <span class="fu">blavFitIndices</span>(f1, <span class="at">baseline.model =</span> fit_null)</span>
+<span id="cb51-2"><a href="#cb51-2"></a><span class="fu">summary</span>(fits_all, <span class="at">central.tendency =</span> <span class="fu">c</span>(<span class="st">"mean"</span>,<span class="st">"median"</span>), <span class="at">prob =</span> .<span class="dv">90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Posterior summary statistics and highest posterior density (HPD) 90% credible intervals for devm-based fit indices:
+
+               EAP Median    SD lower upper
+BRMSEA       0.100  0.100 0.013 0.078 0.121
+BGammaHat    0.925  0.926 0.018 0.897 0.956
+adjBGammaHat 0.869  0.870 0.032 0.819 0.922
+BMc          0.801  0.803 0.047 0.725 0.877
+BCFI         0.951  0.951 0.013 0.930 0.972
+BTLI         0.932  0.934 0.018 0.905 0.962
+BNFI         0.895  0.896 0.012 0.875 0.914</code></pre>
+</div>
+</div>
+</section>
+<section id="indices-posteriors-plots" class="slide level2">
+<h2>Indices posteriors plots</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-43_2b4ae3d3197dc5052d89afefd89c78bb">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>dist_fits <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(fits_all<span class="sc">@</span>indices)</span>
+<span id="cb53-2"><a href="#cb53-2"></a><span class="fu">mcmc_pairs</span>(dist_fits, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"BRMSEA"</span>,<span class="st">"BGammaHat"</span>,<span class="st">"BCFI"</span>),</span>
+<span id="cb53-3"><a href="#cb53-3"></a>           <span class="at">diag_fun =</span> <span class="st">"hist"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-43-1.png" width="960" class="r-stretch"></section>
+<section id="model-with-cross-time-parameters" class="slide level2">
+<h2>Model with cross time parameters</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-44_3dd4423d3f77d17d1d4b6ce339c4c126">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a>fits_all4 <span class="ot">&lt;-</span> <span class="fu">blavFitIndices</span>(f4, <span class="at">baseline.model =</span> fit_null)</span>
+<span id="cb54-2"><a href="#cb54-2"></a><span class="fu">summary</span>(fits_all4, <span class="at">central.tendency =</span> <span class="fu">c</span>(<span class="st">"mean"</span>,<span class="st">"median"</span>), <span class="at">prob =</span> .<span class="dv">90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Posterior summary statistics and highest posterior density (HPD) 90% credible intervals for devm-based fit indices:
+
+               EAP Median    SD lower upper
+BRMSEA       0.064  0.066 0.024 0.026 0.102
+BGammaHat    0.967  0.968 0.019 0.940 1.000
+adjBGammaHat 0.938  0.941 0.036 0.888 1.000
+BMc          0.910  0.913 0.052 0.839 1.000
+BCFI         0.979  0.980 0.013 0.961 1.000
+BTLI         0.969  0.971 0.019 0.940 1.001
+BNFI         0.925  0.926 0.012 0.906 0.945</code></pre>
+</div>
+</div>
+</section>
+<section id="model-with-cross-time-parameters-1" class="slide level2">
+<h2>Model with cross time parameters</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-45_eda68fd7a58bd90d9549ea65bdaa4b19">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>dist_fits4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(fits_all4<span class="sc">@</span>indices)</span>
+<span id="cb56-2"><a href="#cb56-2"></a><span class="fu">mcmc_pairs</span>(dist_fits4, <span class="at">pars =</span> <span class="fu">c</span>(<span class="st">"BRMSEA"</span>,<span class="st">"BGammaHat"</span>,<span class="st">"BCFI"</span>),</span>
+<span id="cb56-3"><a href="#cb56-3"></a>           <span class="at">diag_fun =</span> <span class="st">"hist"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-45-1.png" width="960" class="r-stretch"></section>
+<section id="bayesian-fit-indices-1" class="slide level2 smaller">
+<h2>Bayesian fit indices</h2>
+<ul>
+<li>CFI and <span class="math inline">\(\hat{\Gamma}\)</span> are the most recommended indices <span class="citation" data-cites="garnier_adapting_2020">(<a href="#/references" role="doc-biblioref" onclick="">Garnier-Villarreal and Jorgensen 2020</a>)</span></li>
+<li>They are less sensitive to data and model characteristics</li>
+<li>Approximating “misfit” rather than other factors</li>
+<li>Be careful with strict cutoffs to define “good” models
+<ul>
+<li>Closer to 1 means “better” fit</li>
+</ul></li>
+<li>They are effect size measures of misfit, rather than tests of it</li>
+<li>Credible intervals allow us to evaluate uncertainty in model fit</li>
+</ul>
+</section></section>
+<section>
+<section id="model-comparison" class="title-slide slide level1 center">
+<h1>Model comparison</h1>
+
+</section>
+<section id="ockams-razor" class="slide level2">
+<h2>Ockam’s Razor</h2>
+<p>Models with fewer assumptions are to be preferred</p>
+</section>
+<section id="statistical-errors" class="slide level2">
+<h2>Statistical errors</h2>
+<ul>
+<li>Overfitting: leads to poor predictions by learning too much from the data.</li>
+<li>Underfitting: leads to poor predictions by learning to little from data</li>
+</ul>
+</section>
+<section id="information-and-uncertainty" class="slide level2">
+<h2>Information and uncertainty</h2>
+<ul>
+<li>How much is our uncertainty reduce by learning an outcome?</li>
+<li>Information: the reduction in uncertainty derived from learning an outcome.</li>
+<li>Measure of uncertainty:
+<ul>
+<li>Continuous.</li>
+<li>Increase as the number of events increase.</li>
+<li>Should be additive.</li>
+</ul></li>
+</ul>
+</section>
+<section id="log-probability" class="slide level2">
+<h2>Log-probability</h2>
+<ul>
+<li>The uncertainty contained in a probability distribution is the average log-probability of an event</li>
+<li>Average log-probability of a model is the estimate of relative distance of the model from the target.</li>
+<li>The bayesian log-probability score is Log- Pointwise-Predictive-Density (<span class="math inline">\(lppd\)</span>)</li>
+<li><span class="math inline">\(lppd\)</span> estimates the deviance across all the posterior distribution (not wasting information)</li>
+</ul>
+</section>
+<section id="what-prediction-do-we-care-about" class="slide level2">
+<h2>What prediction do we care about?</h2>
+<ul>
+<li>What do we want our model to predict?</li>
+<li>Predicting observed data is easy, and over estimates the model accuracy</li>
+<li>Out of sample prediction tests the accuracy of predicting observations that are not included in the model. True test of model performance</li>
+</ul>
+</section>
+<section id="what-prediction-do-we-care-about-1" class="slide level2">
+<h2>What prediction do we care about?</h2>
+
+<img data-src="out_sample.png" class="r-stretch"></section>
+<section id="information-criteria" class="slide level2">
+<h2>Information criteria</h2>
+<ul>
+<li>These methods intend to evaluate the out-of-sample predictive accuracy of the models, and compare that performance. This is the ability to predict a datapoint that hasn’t been used in the <strong>training</strong> model <span class="citation" data-cites="mcelreath_statistical_2020">(<a href="#/references" role="doc-biblioref" onclick="">McElreath 2020</a>)</span></li>
+<li>Hard to interpret by themselves, good for comparison</li>
+<li><span class="math inline">\(DIC\)</span>: Deviance Information criteria</li>
+<li><span class="math inline">\(WAIC\)</span>: widely applicable information criteria</li>
+<li><span class="math inline">\(LOO\)</span>: Leave-one-out information criteria</li>
+</ul>
+</section>
+<section id="dic" class="slide level2">
+<h2>DIC</h2>
+<ul>
+<li>Based on the overall model log-likelihood</li>
+<li>Penalized by the effective number of parameters (<span class="math inline">\(efp\)</span>)</li>
+<li>Lower values indicates better fit</li>
+<li>Ignores the posterior distribution variability</li>
+</ul>
+<p><span class="math inline">\(DIC = -2LL + 2efp\)</span></p>
+</section>
+<section id="waic" class="slide level2">
+<h2>WAIC</h2>
+<ul>
+<li>WAIC <span class="citation" data-cites="watanabeAsymptoticEquivalenceBayesa">(<a href="#/references" role="doc-biblioref" onclick="">Watanabe 2010</a>)</span> fully Bayesian generalization of the Akaike Information Criteria (AIC), where we have a measure of uncertainty/information of the model prediction for each row in the data across all posterior draws</li>
+<li>This is the Log-Pointwise-Predictive-Density (lppd). The WAIC is defined as</li>
+</ul>
+<p><span class="math inline">\(WAIC= -2lppd + 2efp_{WAIC}\)</span></p>
+</section>
+<section id="loo" class="slide level2">
+<h2>LOO</h2>
+<ul>
+<li>The LOO measures the predictive density of each observation holding out one observation at the time and use the rest of the observations to update the prior.</li>
+<li>This estimation is calculated via <span class="citation" data-cites="vehtari_practical_2017">(<a href="#/references" role="doc-biblioref" onclick="">Vehtari, Gelman, and Gabry 2017</a>)</span>:</li>
+</ul>
+<p><span class="math inline">\(LOO = -2\sum_{i=1}^{n} log \Bigg(\frac{\sum^{S}_{s =1} w^{s}_{i}f(y_{i}|\theta^{s})}{\sum^{s}_{s=1} w^{s}_{i}}\Bigg)\)</span></p>
+</section>
+<section id="model-comparison-1" class="slide level2 smaller">
+<h2>Model comparison</h2>
+<ul>
+<li>Both WAIC and LOO approximate the models’ performance across posterior draws, we are able to calculate a standard error for them and for model comparisons involving them.</li>
+<li>Differences estimate the differences across the Expected Log-Pointwise-Predictive-Density (<span class="math inline">\(elpd\)</span>), and the standard error of the respective difference.</li>
+<li>There are no clear cutoff rules on how to interpret and present these comparisons, and the researchers need to use their expert knowledge as part of the decision process.</li>
+<li>The best recommendation is the present the differences in <span class="math inline">\(elpd\)</span> (<span class="math inline">\(\Delta elpd\)</span>), the standard error, and the ratio between them. If the ratio is at least 2 can be consider evidence of differences between the models, and a ratio of 4 would be considered stronger evidence.</li>
+</ul>
+</section>
+<section id="bayes-factor" class="slide level2 smaller">
+<h2>Bayes factor</h2>
+<ul>
+<li>In the Bayesian literature you will the the use of the Bayes factor (BF) to compare models.</li>
+<li>There are a number of criticisms related to the use of the BF in BSEM, including (1) the BF is unstable for large models (like most SEMs), (2) it is highly sensitive to model priors, (3) it requires strong priors to have stable estimation of it, (4) it can require large number of posterior draws, (5) the estimation using the marginal likelihood ignores a lot of information from the posterior distributions.</li>
+<li>For more details on this discussion please see <span class="citation" data-cites="tendeiro_review_2019">Tendeiro and Kiers (<a href="#/references" role="doc-biblioref" onclick="">2019</a>)</span> and <span class="citation" data-cites="schad_workflow_2022">Schad et al. (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span>.</li>
+<li>These criticisms lead us to recommend against use of the BF in everyday BSEM estimation.</li>
+<li>For researchers who commit to their prior distributions and who commit to exploring the noise in their computations, the BF can used to describe the relative odds of one model over another, which is more intuitive than some other model comparison metrics.</li>
+</ul>
+</section>
+<section id="model-comparison-2" class="slide level2 smaller">
+<h2>Model comparison</h2>
+<ul>
+<li>Default priors vs weakly informative priors</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-46_a087ab80f76364feb4ef9bc791d93fb2">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>bc12 <span class="ot">&lt;-</span> <span class="fu">blavCompare</span>(f1, f2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+WAIC estimates: 
+ object1:  3202.545 
+ object2:  3202.076 
+
+WAIC difference &amp; SE: 
+   -0.235    1.089 
+
+LOO estimates: 
+ object1:  3202.908 
+ object2:  3202.274 
+
+LOO difference &amp; SE: 
+   -0.317    1.087 
+
+Laplace approximation to the log-Bayes factor
+(experimental; positive values favor object1):  -29.354 </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-47_f31a139e0e38ee4d02aa70a4bc490a4c">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="fu">abs</span>(bc12<span class="sc">$</span>diff_loo[<span class="dv">1</span>] <span class="sc">/</span> bc12<span class="sc">$</span>diff_loo[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elpd_diff 
+0.2917188 </code></pre>
+</div>
+</div>
+</section>
+<section id="model-comparison-3" class="slide level2">
+<h2>Model comparison</h2>
+<ul>
+<li>Default priors vs weakly informative priors
+<ul>
+<li>Small difference indicate that both models have similar out-of-sample predictive accuracy</li>
+<li>Can choose either model to continue (theory), I am keeping the weakly informative priors model</li>
+</ul></li>
+</ul>
+</section>
+<section id="model-comparison-4" class="slide level2 smaller">
+<h2>Model comparison</h2>
+<ul>
+<li>Should we keep the residual correlations?</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-48_fa5bb23295b0b2a16790379274282498">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>bc23 <span class="ot">&lt;-</span> <span class="fu">blavCompare</span>(f2, f3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+WAIC estimates: 
+ object1:  3202.076 
+ object2:  3192.1 
+
+WAIC difference &amp; SE: 
+   -4.988    5.827 
+
+LOO estimates: 
+ object1:  3202.274 
+ object2:  3192.548 
+
+LOO difference &amp; SE: 
+   -4.863    5.826 
+
+Laplace approximation to the log-Bayes factor
+(experimental; positive values favor object1):       NA </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-49_f24e2336340228ee5c4e063f64421487">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a><span class="fu">abs</span>(bc23<span class="sc">$</span>diff_loo[<span class="dv">1</span>] <span class="sc">/</span> bc23<span class="sc">$</span>diff_loo[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elpd_diff 
+0.8347246 </code></pre>
+</div>
+</div>
+</section>
+<section id="model-comparison-5" class="slide level2">
+<h2>Model comparison</h2>
+<ul>
+<li>Should we keep the residual correlations?
+<ul>
+<li>Small difference indicate that both models have similar out-of-sample predictive accuracy</li>
+<li>Can choose either model to continue (theory), I am keeping the residual correlations model</li>
+<li>Because the correlations are above <span class="math inline">\(r &gt; 0.2\)</span> and they are theoretical relevant</li>
+</ul></li>
+</ul>
+</section>
+<section id="model-comparison-6" class="slide level2 smaller">
+<h2>Model comparison</h2>
+<ul>
+<li>Should we keep the equality constraints in factor loadings?</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-50_a7eca4b2d985f18f0c897b01a5d713d1">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>bc34 <span class="ot">&lt;-</span> <span class="fu">blavCompare</span>(f3, f4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+WAIC estimates: 
+ object1:  3192.1 
+ object2:  3186.513 
+
+WAIC difference &amp; SE: 
+   -2.794    1.581 
+
+LOO estimates: 
+ object1:  3192.548 
+ object2:  3187.004 
+
+LOO difference &amp; SE: 
+   -2.772    1.577 
+
+Laplace approximation to the log-Bayes factor
+(experimental; positive values favor object1):       NA </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-51_239878da395ce8cd6f5693941cc919ad">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a><span class="fu">abs</span>(bc34<span class="sc">$</span>diff_loo[<span class="dv">1</span>] <span class="sc">/</span> bc34<span class="sc">$</span>diff_loo[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elpd_diff 
+ 1.758508 </code></pre>
+</div>
+</div>
+</section>
+<section id="model-comparison-7" class="slide level2">
+<h2>Model comparison</h2>
+<ul>
+<li>Should we keep the equality constraints in factor loadings?
+<ul>
+<li>Small difference indicate that both models have similar out-of-sample predictive accuracy</li>
+<li>Can choose either model to continue (theory), I am keeping the constrained mode</li>
+<li>Because the constraints are theoretically relevant (longitudinal equivalence)</li>
+</ul></li>
+</ul>
+</section>
+<section id="model-comparison-8" class="slide level2 smaller">
+<h2>Model comparison</h2>
+<ul>
+<li>Should we keep the factor correlations?</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-52_d669560b807a5e30ea329adb37f67153">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a>mod5 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb69-2"><a href="#cb69-2"></a><span class="st">  # latent variable definitions</span></span>
+<span id="cb69-3"><a href="#cb69-3"></a><span class="st">     ind60 =~ x1 + x2 + x3</span></span>
+<span id="cb69-4"><a href="#cb69-4"></a><span class="st">     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4</span></span>
+<span id="cb69-5"><a href="#cb69-5"></a><span class="st">     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8</span></span>
+<span id="cb69-6"><a href="#cb69-6"></a><span class="st">     </span></span>
+<span id="cb69-7"><a href="#cb69-7"></a><span class="st">     ind60 ~~ 0*dem60 + 0*dem65</span></span>
+<span id="cb69-8"><a href="#cb69-8"></a><span class="st">     dem60 ~~ 0*dem65</span></span>
+<span id="cb69-9"><a href="#cb69-9"></a></span>
+<span id="cb69-10"><a href="#cb69-10"></a><span class="st">  # residual correlations</span></span>
+<span id="cb69-11"><a href="#cb69-11"></a><span class="st">    y1 ~~ y5</span></span>
+<span id="cb69-12"><a href="#cb69-12"></a><span class="st">    y2 ~~ y6</span></span>
+<span id="cb69-13"><a href="#cb69-13"></a><span class="st">    y3 ~~ y7</span></span>
+<span id="cb69-14"><a href="#cb69-14"></a><span class="st">    y4 ~~ y8</span></span>
+<span id="cb69-15"><a href="#cb69-15"></a><span class="st">'</span></span>
+<span id="cb69-16"><a href="#cb69-16"></a></span>
+<span id="cb69-17"><a href="#cb69-17"></a>f5 <span class="ot">&lt;-</span> <span class="fu">bcfa</span>(mod5, <span class="at">data=</span>PoliticalDemocracy, </span>
+<span id="cb69-18"><a href="#cb69-18"></a>           <span class="at">meanstructure=</span>T, <span class="at">std.lv=</span>T, <span class="at">dp=</span>priors,</span>
+<span id="cb69-19"><a href="#cb69-19"></a>           <span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sample=</span><span class="dv">1000</span>, <span class="at">n.chains=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0.001 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 7.052 seconds (Warm-up)
+Chain 1:                6.038 seconds (Sampling)
+Chain 1:                13.09 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0.001 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 7.087 seconds (Warm-up)
+Chain 2:                5.971 seconds (Sampling)
+Chain 2:                13.058 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 7.075 seconds (Warm-up)
+Chain 3:                5.983 seconds (Sampling)
+Chain 3:                13.058 seconds (Total)
+Chain 3: 
+Computing posterior predictives...</code></pre>
+</div>
+</div>
+</section>
+<section id="model-comparison-9" class="slide level2 smaller">
+<h2>Model comparison</h2>
+<ul>
+<li>Should we keep the factor correlations?</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-53_a4517b56b9deb093057a553b5c8de521">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a>bc45 <span class="ot">&lt;-</span> <span class="fu">blavCompare</span>(f4, f5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+WAIC estimates: 
+ object1:  3186.513 
+ object2:  3299.044 
+
+WAIC difference &amp; SE: 
+  -56.266    9.316 
+
+LOO estimates: 
+ object1:  3187.004 
+ object2:  3299.401 
+
+LOO difference &amp; SE: 
+  -56.199    9.321 
+
+Laplace approximation to the log-Bayes factor
+(experimental; positive values favor object1):       NA </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-54_77cefcf7e7333b494fd89e7eb5280151">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a><span class="fu">abs</span>(bc45<span class="sc">$</span>diff_loo[<span class="dv">1</span>] <span class="sc">/</span> bc45<span class="sc">$</span>diff_loo[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elpd_diff 
+ 6.029301 </code></pre>
+</div>
+</div>
+</section>
+<section id="model-comparison-10" class="slide level2">
+<h2>Model comparison</h2>
+<ul>
+<li>Should we keep the factor correlations?
+<ul>
+<li>Large difference indicates that there is difference between the models accuracy</li>
+<li>Model with factor correlations fits better</li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="bsem-latent-regression" class="title-slide slide level1 center">
+<h1>BSEM: latent regression</h1>
+
+</section>
+<section id="latent-regressions" class="slide level2">
+<h2>Latent Regressions</h2>
+<ul>
+<li>Switch from correlations to regressions</li>
+<li>Theoretically meaningful relations</li>
+<li>Add priors for the regression slopes</li>
+</ul>
+</section>
+<section id="latent-regressions-1" class="slide level2">
+<h2>Latent Regressions</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-55_739f7b642971214901530a6e49b5d817">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>priors <span class="ot">&lt;-</span> <span class="fu">dpriors</span>(<span class="at">nu=</span><span class="st">"normal(3,2)"</span>,</span>
+<span id="cb75-2"><a href="#cb75-2"></a>                  <span class="at">lambda=</span><span class="st">"normal(1, 3)"</span>,</span>
+<span id="cb75-3"><a href="#cb75-3"></a>                  <span class="at">beta=</span><span class="st">"normal(0.4, 2)"</span>,</span>
+<span id="cb75-4"><a href="#cb75-4"></a>                  <span class="at">theta=</span><span class="st">"gamma(1,1)[sd]"</span>)</span>
+<span id="cb75-5"><a href="#cb75-5"></a></span>
+<span id="cb75-6"><a href="#cb75-6"></a>mod6 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb75-7"><a href="#cb75-7"></a><span class="st">  # latent variable definitions</span></span>
+<span id="cb75-8"><a href="#cb75-8"></a><span class="st">     ind60 =~ x1 + x2 + x3</span></span>
+<span id="cb75-9"><a href="#cb75-9"></a><span class="st">     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4</span></span>
+<span id="cb75-10"><a href="#cb75-10"></a><span class="st">     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8</span></span>
+<span id="cb75-11"><a href="#cb75-11"></a></span>
+<span id="cb75-12"><a href="#cb75-12"></a><span class="st">  # regressions</span></span>
+<span id="cb75-13"><a href="#cb75-13"></a><span class="st">    dem60 ~ ind60</span></span>
+<span id="cb75-14"><a href="#cb75-14"></a><span class="st">    dem65 ~ ind60 + dem60</span></span>
+<span id="cb75-15"><a href="#cb75-15"></a></span>
+<span id="cb75-16"><a href="#cb75-16"></a><span class="st">  # residual correlations</span></span>
+<span id="cb75-17"><a href="#cb75-17"></a><span class="st">    y1 ~~ y5</span></span>
+<span id="cb75-18"><a href="#cb75-18"></a><span class="st">    y2 ~~ y6</span></span>
+<span id="cb75-19"><a href="#cb75-19"></a><span class="st">    y3 ~~ y7</span></span>
+<span id="cb75-20"><a href="#cb75-20"></a><span class="st">    y4 ~~ y8</span></span>
+<span id="cb75-21"><a href="#cb75-21"></a><span class="st">'</span></span>
+<span id="cb75-22"><a href="#cb75-22"></a></span>
+<span id="cb75-23"><a href="#cb75-23"></a>f6 <span class="ot">&lt;-</span> <span class="fu">bsem</span>(mod6, <span class="at">data=</span>PoliticalDemocracy, </span>
+<span id="cb75-24"><a href="#cb75-24"></a>           <span class="at">meanstructure=</span>T, <span class="at">std.lv=</span>T, <span class="at">dp=</span>priors,</span>
+<span id="cb75-25"><a href="#cb75-25"></a>           <span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sample=</span><span class="dv">1000</span>, <span class="at">n.chains=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 6.32 seconds (Warm-up)
+Chain 1:                5.728 seconds (Sampling)
+Chain 1:                12.048 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0.001 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 6.791 seconds (Warm-up)
+Chain 2:                5.908 seconds (Sampling)
+Chain 2:                12.699 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 7.295 seconds (Warm-up)
+Chain 3:                5.304 seconds (Sampling)
+Chain 3:                12.599 seconds (Total)
+Chain 3: 
+Computing posterior predictives...</code></pre>
+</div>
+</div>
+</section>
+<section id="convergence-and-efficiency-5" class="slide level2">
+<h2>Convergence and efficiency</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-56_0d5a57d2e0a04927ff3dd3729a136a3b">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a><span class="fu">max</span>(<span class="fu">blavInspect</span>(f6, <span class="st">"psrf"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.002361</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a><span class="fu">min</span>(<span class="fu">blavInspect</span>(f6,<span class="st">"neff"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1024.465</code></pre>
+</div>
+</div>
+</section>
+<section id="parameter-posteriors-4" class="slide level2">
+<h2>Parameter posteriors</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-57_70f1029353312eb053d079352af49a6f">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a><span class="fu">summary</span>(f6, <span class="at">standardize=</span>T, <span class="at">rsquare=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>blavaan (0.4-7) results of 1000 samples after 1000 adapt/burnin iterations
+
+  Number of observations                            75
+
+  Statistic                                 MargLogLik         PPP
+  Value                                             NA       0.007
+
+Latent Variables:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+  ind60 =~                                                              
+    x1                0.707    0.074    0.579    0.863    0.707    0.922
+    x2                1.544    0.149    1.275    1.861    1.544    0.974
+    x3                1.280    0.146    1.017    1.595    1.280    0.873
+  dem60 =~                                                              
+    y1         (a)    1.415    0.164    1.111    1.738    1.724    0.731
+    y2         (b)    1.924    0.224    1.512    2.362    2.346    0.657
+    y3         (c)    1.777    0.200    1.392    2.179    2.166    0.677
+    y4         (d)    2.111    0.197    1.748    2.516    2.573    0.856
+  dem65 =~                                                              
+    y5         (a)    1.415    0.164    1.111    1.738    2.169    0.775
+    y6         (b)    1.924    0.224    1.512    2.362    2.951    0.823
+    y7         (c)    1.777    0.200    1.392    2.179    2.725    0.805
+    y8         (d)    2.111    0.197    1.748    2.516    3.237    0.913
+     Rhat    Prior      
+                        
+    0.999   normal(1, 3)
+    1.000   normal(1, 3)
+    0.999   normal(1, 3)
+                        
+    1.000   normal(1, 3)
+    1.002   normal(1, 3)
+    1.001   normal(1, 3)
+    1.002   normal(1, 3)
+                        
+    1.000               
+    1.002               
+    1.001               
+    1.002               
+
+Regressions:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+  dem60 ~                                                               
+    ind60             0.697    0.167    0.377    1.045    0.572    0.572
+  dem65 ~                                                               
+    ind60             0.222    0.165   -0.103    0.549    0.145    0.145
+    dem60             0.838    0.123    0.606    1.084    0.666    0.666
+     Rhat    Prior      
+                        
+    1.002 normal(0.4, 2)
+                        
+    1.000 normal(0.4, 2)
+    1.000 normal(0.4, 2)
+
+Covariances:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+ .y1 ~~                                                                 
+   .y5                0.891    0.469    0.050    1.904    0.891    0.312
+ .y2 ~~                                                                 
+   .y6                2.121    0.791    0.741    3.889    2.121    0.388
+ .y3 ~~                                                                 
+   .y7                1.503    0.702    0.254    3.025    1.503    0.318
+ .y4 ~~                                                                 
+   .y8                0.294    0.484   -0.592    1.292    0.294    0.131
+     Rhat    Prior      
+                        
+    1.000      beta(1,1)
+                        
+    1.001      beta(1,1)
+                        
+    0.999      beta(1,1)
+                        
+    1.000      beta(1,1)
+
+Intercepts:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+   .x1                5.000    0.085    4.827    5.168    5.000    6.525
+   .x2                4.671    0.177    4.311    5.002    4.671    2.947
+   .x3                3.457    0.164    3.127    3.771    3.457    2.358
+   .y1                5.259    0.260    4.740    5.763    5.259    2.229
+   .y2                3.988    0.389    3.238    4.766    3.988    1.118
+   .y3                6.255    0.355    5.540    6.925    6.255    1.955
+   .y4                4.170    0.330    3.545    4.817    4.170    1.387
+   .y5                4.891    0.310    4.280    5.490    4.891    1.747
+   .y6                2.680    0.398    1.905    3.460    2.680    0.748
+   .y7                5.863    0.377    5.108    6.574    5.863    1.732
+   .y8                3.711    0.385    2.957    4.475    3.711    1.047
+    ind60             0.000                               0.000    0.000
+   .dem60             0.000                               0.000    0.000
+   .dem65             0.000                               0.000    0.000
+     Rhat    Prior      
+    1.000    normal(3,2)
+    1.000    normal(3,2)
+    0.999    normal(3,2)
+    1.001    normal(3,2)
+    1.000    normal(3,2)
+    1.000    normal(3,2)
+    1.001    normal(3,2)
+    1.000    normal(3,2)
+    1.000    normal(3,2)
+    1.000    normal(3,2)
+    1.002    normal(3,2)
+                        
+                        
+                        
+
+Variances:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+   .x1                0.088    0.023    0.046    0.136    0.088    0.149
+   .x2                0.129    0.082    0.002    0.309    0.129    0.052
+   .x3                0.510    0.104    0.341    0.752    0.510    0.238
+   .y1                2.594    0.592    1.567    3.859    2.594    0.466
+   .y2                7.229    1.377    5.024   10.456    7.229    0.568
+   .y3                5.538    1.077    3.731    7.992    5.538    0.541
+   .y4                2.415    0.800    0.920    4.104    2.415    0.267
+   .y5                3.137    0.637    2.101    4.630    3.137    0.400
+   .y6                4.139    0.841    2.733    5.996    4.139    0.322
+   .y7                4.031    0.867    2.580    5.984    4.031    0.352
+   .y8                2.086    0.682    0.905    3.590    2.086    0.166
+    ind60             1.000                               1.000    1.000
+   .dem60             1.000                               0.673    0.673
+   .dem65             1.000                               0.425    0.425
+     Rhat    Prior      
+    1.000 gamma(1,1)[sd]
+    1.001 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    1.002 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.002 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+                        
+                        
+                        
+
+R-Square:
+                   Estimate
+    x1                0.851
+    x2                0.948
+    x3                0.762
+    y1                0.534
+    y2                0.432
+    y3                0.459
+    y4                0.733
+    y5                0.600
+    y6                0.678
+    y7                0.648
+    y8                0.834
+    dem60             0.327
+    dem65             0.575</code></pre>
+</div>
+</div>
+</section>
+<section id="constrain-regressions-with-priors" class="slide level2">
+<h2>Constrain regressions with priors</h2>
+<ul>
+<li>Can constraint parameters to be close to 0, but not exactly 0</li>
+<li>Allows space the parameter to move out of the constraint if the data requires it</li>
+<li>Can state specific hypothesis with priors</li>
+</ul>
+</section>
+<section id="constrain-regressions-with-priors-1" class="slide level2">
+<h2>Constrain regressions with priors</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-58_2066871000554c06e0f8667b34a429d1">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1"></a>mod7 <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb83-2"><a href="#cb83-2"></a><span class="st">  # latent variable definitions</span></span>
+<span id="cb83-3"><a href="#cb83-3"></a><span class="st">     ind60 =~ x1 + x2 + x3</span></span>
+<span id="cb83-4"><a href="#cb83-4"></a><span class="st">     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4</span></span>
+<span id="cb83-5"><a href="#cb83-5"></a><span class="st">     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8</span></span>
+<span id="cb83-6"><a href="#cb83-6"></a></span>
+<span id="cb83-7"><a href="#cb83-7"></a><span class="st">  # regressions</span></span>
+<span id="cb83-8"><a href="#cb83-8"></a><span class="st">    dem60 ~ ind60</span></span>
+<span id="cb83-9"><a href="#cb83-9"></a><span class="st">    dem65 ~ prior("normal(0,.08)")*ind60 + dem60</span></span>
+<span id="cb83-10"><a href="#cb83-10"></a></span>
+<span id="cb83-11"><a href="#cb83-11"></a><span class="st">  # residual correlations</span></span>
+<span id="cb83-12"><a href="#cb83-12"></a><span class="st">    y1 ~~ y5</span></span>
+<span id="cb83-13"><a href="#cb83-13"></a><span class="st">    y2 ~~ y6</span></span>
+<span id="cb83-14"><a href="#cb83-14"></a><span class="st">    y3 ~~ y7</span></span>
+<span id="cb83-15"><a href="#cb83-15"></a><span class="st">    y4 ~~ y8</span></span>
+<span id="cb83-16"><a href="#cb83-16"></a><span class="st">'</span></span>
+<span id="cb83-17"><a href="#cb83-17"></a></span>
+<span id="cb83-18"><a href="#cb83-18"></a>f7 <span class="ot">&lt;-</span> <span class="fu">bsem</span>(mod7, <span class="at">data=</span>PoliticalDemocracy, </span>
+<span id="cb83-19"><a href="#cb83-19"></a>           <span class="at">meanstructure=</span>T, <span class="at">std.lv=</span>T, <span class="at">dp=</span>priors,</span>
+<span id="cb83-20"><a href="#cb83-20"></a>           <span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sample=</span><span class="dv">1000</span>, <span class="at">n.chains=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 7.673 seconds (Warm-up)
+Chain 1:                5.411 seconds (Sampling)
+Chain 1:                13.084 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 0 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 5.8 seconds (Warm-up)
+Chain 2:                7.454 seconds (Sampling)
+Chain 2:                13.254 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'stanmarg' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 0 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 6.105 seconds (Warm-up)
+Chain 3:                5.36 seconds (Sampling)
+Chain 3:                11.465 seconds (Total)
+Chain 3: 
+Computing posterior predictives...</code></pre>
+</div>
+</div>
+</section>
+<section id="parameter-posteriors-5" class="slide level2">
+<h2>Parameter posteriors</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-59_ffc5f8a80b15d15adc0b1a41a75df990">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1"></a><span class="fu">summary</span>(f7, <span class="at">standardize=</span>T, <span class="at">rsquare=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>blavaan (0.4-7) results of 1000 samples after 1000 adapt/burnin iterations
+
+  Number of observations                            75
+
+  Statistic                                 MargLogLik         PPP
+  Value                                             NA       0.009
+
+Latent Variables:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+  ind60 =~                                                              
+    x1                0.702    0.073    0.573    0.862    0.702    0.921
+    x2                1.534    0.146    1.272    1.840    1.534    0.974
+    x3                1.273    0.143    1.024    1.585    1.273    0.872
+  dem60 =~                                                              
+    y1         (a)    1.404    0.162    1.093    1.740    1.729    0.731
+    y2         (b)    1.920    0.221    1.497    2.365    2.365    0.659
+    y3         (c)    1.771    0.194    1.415    2.169    2.181    0.681
+    y4         (d)    2.106    0.194    1.740    2.506    2.594    0.857
+  dem65 =~                                                              
+    y5         (a)    1.404    0.162    1.093    1.740    2.122    0.766
+    y6         (b)    1.920    0.221    1.497    2.365    2.902    0.819
+    y7         (c)    1.771    0.194    1.415    2.169    2.676    0.801
+    y8         (d)    2.106    0.194    1.740    2.506    3.183    0.911
+     Rhat    Prior      
+                        
+    1.000   normal(1, 3)
+    1.001   normal(1, 3)
+    1.000   normal(1, 3)
+                        
+    0.999   normal(1, 3)
+    1.003   normal(1, 3)
+    1.000   normal(1, 3)
+    1.004   normal(1, 3)
+                        
+    0.999               
+    1.003               
+    1.000               
+    1.004               
+
+Regressions:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+  dem60 ~                                                               
+    ind60             0.719    0.164    0.420    1.067    0.584    0.584
+  dem65 ~                                                               
+    ind60             0.042    0.071   -0.099    0.181    0.028    0.028
+    dem60             0.900    0.106    0.688    1.105    0.733    0.733
+     Rhat    Prior      
+                        
+    1.000 normal(0.4, 2)
+                        
+    1.000  normal(0,.08)
+    1.002 normal(0.4, 2)
+
+Covariances:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+ .y1 ~~                                                                 
+   .y5                0.878    0.466    0.087    1.949    0.878    0.306
+ .y2 ~~                                                                 
+   .y6                2.132    0.801    0.668    3.931    2.132    0.388
+ .y3 ~~                                                                 
+   .y7                1.470    0.671    0.257    2.928    1.470    0.313
+ .y4 ~~                                                                 
+   .y8                0.309    0.495   -0.602    1.334    0.309    0.137
+     Rhat    Prior      
+                        
+    1.001      beta(1,1)
+                        
+    1.001      beta(1,1)
+                        
+    1.000      beta(1,1)
+                        
+    1.001      beta(1,1)
+
+Intercepts:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+   .x1                5.008    0.087    4.827    5.171    5.008    6.570
+   .x2                4.691    0.175    4.331    5.013    4.691    2.978
+   .x3                3.475    0.164    3.144    3.778    3.475    2.381
+   .y1                5.274    0.266    4.731    5.793    5.274    2.230
+   .y2                4.009    0.404    3.217    4.789    4.009    1.117
+   .y3                6.277    0.363    5.544    6.972    6.277    1.959
+   .y4                4.195    0.336    3.497    4.830    4.195    1.386
+   .y5                4.926    0.305    4.314    5.508    4.926    1.779
+   .y6                2.717    0.385    1.941    3.476    2.717    0.767
+   .y7                5.906    0.365    5.166    6.599    5.906    1.767
+   .y8                3.754    0.384    2.995    4.528    3.754    1.074
+    ind60             0.000                               0.000    0.000
+   .dem60             0.000                               0.000    0.000
+   .dem65             0.000                               0.000    0.000
+     Rhat    Prior      
+    1.002    normal(3,2)
+    1.001    normal(3,2)
+    1.001    normal(3,2)
+    1.001    normal(3,2)
+    1.001    normal(3,2)
+    1.000    normal(3,2)
+    1.001    normal(3,2)
+    1.001    normal(3,2)
+    1.001    normal(3,2)
+    1.001    normal(3,2)
+    1.002    normal(3,2)
+                        
+                        
+                        
+
+Variances:
+                   Estimate  Post.SD pi.lower pi.upper   Std.lv  Std.all
+   .x1                0.088    0.022    0.050    0.133    0.088    0.151
+   .x2                0.128    0.079    0.001    0.297    0.128    0.052
+   .x3                0.509    0.099    0.344    0.715    0.509    0.239
+   .y1                2.601    0.597    1.596    3.889    2.601    0.465
+   .y2                7.297    1.401    5.000   10.380    7.297    0.566
+   .y3                5.508    1.059    3.738    7.884    5.508    0.537
+   .y4                2.437    0.796    1.059    4.203    2.437    0.266
+   .y5                3.161    0.682    2.059    4.718    3.161    0.412
+   .y6                4.130    0.866    2.671    6.091    4.130    0.329
+   .y7                4.007    0.853    2.566    5.873    4.007    0.359
+   .y8                2.083    0.697    0.798    3.610    2.083    0.170
+    ind60             1.000                               1.000    1.000
+   .dem60             1.000                               0.659    0.659
+   .dem65             1.000                               0.438    0.438
+     Rhat    Prior      
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    1.000 gamma(1,1)[sd]
+    0.999 gamma(1,1)[sd]
+    1.001 gamma(1,1)[sd]
+    1.003 gamma(1,1)[sd]
+                        
+                        
+                        
+
+R-Square:
+                   Estimate
+    x1                0.849
+    x2                0.948
+    x3                0.761
+    y1                0.535
+    y2                0.434
+    y3                0.463
+    y4                0.734
+    y5                0.588
+    y6                0.671
+    y7                0.641
+    y8                0.830
+    dem60             0.341
+    dem65             0.562</code></pre>
+</div>
+</div>
+</section>
+<section id="model-comparison-11" class="slide level2">
+<h2>Model comparison</h2>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-60_6935abbcb000f5ea61368848d547247b">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1"></a>bc67 <span class="ot">&lt;-</span> <span class="fu">blavCompare</span>(f6, f7)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+WAIC estimates: 
+ object1:  3218.541 
+ object2:  3217.904 
+
+WAIC difference &amp; SE: 
+   -0.319    0.690 
+
+LOO estimates: 
+ object1:  3218.976 
+ object2:  3218.364 
+
+LOO difference &amp; SE: 
+   -0.306    0.701 
+
+Laplace approximation to the log-Bayes factor
+(experimental; positive values favor object1):       NA </code></pre>
+</div>
+</div>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-61_44cfb0f4a14beed344ee9c359f068082">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1"></a><span class="fu">abs</span>(bc67<span class="sc">$</span>diff_loo[<span class="dv">1</span>] <span class="sc">/</span> bc67<span class="sc">$</span>diff_loo[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elpd_diff 
+0.4369204 </code></pre>
+</div>
+</div>
+</section>
+<section id="probability-of-direction" class="slide level2 smaller">
+<h2>Probability of direction</h2>
+<ul>
+<li><span class="math inline">\(pd\)</span> is an index of effect existence (0% to 100%) representing the certainty with which an effect goes in a particular direction (i.e., is positive or negative) <span class="citation" data-cites="makowski_indices_2019">(<a href="#/references" role="doc-biblioref" onclick="">Makowski et al. 2019</a>)</span>.</li>
+<li>Beyond its simplicity of interpretation, this index also presents other interesting properties:
+<ul>
+<li>It is independent from the model: It is solely based on the posterior distributions and does not require any additional information from the data or the model.</li>
+<li>It is robust to the scale of both the response variable and the predictors.</li>
+<li>It is strongly correlated with the frequentist p-value, and can thus be used to draw parallels and give some reference to readers non-familiar with Bayesian statistics.</li>
+</ul></li>
+<li>Probability that a parameter (described by its posterior distribution) is above or below a chosen cutoff, an explicit hypothesis.</li>
+<li>Although differently expressed, this index is fairly similar (i.e., is strongly correlated) to the frequentist p-value.</li>
+</ul>
+</section>
+<section id="probability-of-direction-1" class="slide level2 smaller">
+<h2>Probability of direction</h2>
+<ul>
+<li>Extract the posterior draws into a matrix</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-62_49041058d2c0de850ad97d4756954bee">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1"></a>mc_out <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">blavInspect</span>(f6, <span class="st">"mcmc"</span>))</span>
+<span id="cb91-2"><a href="#cb91-2"></a><span class="fu">dim</span>(mc_out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3000   40</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1"></a><span class="fu">colnames</span>(mc_out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ly_sign[1]"    "ly_sign[2]"    "ly_sign[3]"    "ly_sign[4]"   
+ [5] "ly_sign[5]"    "ly_sign[6]"    "ly_sign[7]"    "ly_sign[4]"   
+ [9] "ly_sign[5]"    "ly_sign[6]"    "ly_sign[7]"    "bet_sign[1]"  
+[13] "bet_sign[2]"   "bet_sign[3]"   "Theta_cov[1]"  "Theta_cov[2]" 
+[17] "Theta_cov[3]"  "Theta_cov[4]"  "Theta_var[1]"  "Theta_var[2]" 
+[21] "Theta_var[3]"  "Theta_var[4]"  "Theta_var[5]"  "Theta_var[6]" 
+[25] "Theta_var[7]"  "Theta_var[8]"  "Theta_var[9]"  "Theta_var[10]"
+[29] "Theta_var[11]" "Nu_free[1]"    "Nu_free[2]"    "Nu_free[3]"   
+[33] "Nu_free[4]"    "Nu_free[5]"    "Nu_free[6]"    "Nu_free[7]"   
+[37] "Nu_free[8]"    "Nu_free[9]"    "Nu_free[10]"   "Nu_free[11]"  </code></pre>
+</div>
+</div>
+</section>
+<section id="probability-of-direction-2" class="slide level2 smaller">
+<h2>Probability of direction</h2>
+<ul>
+<li>Find the respective parameter names, and focus on regressions</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-63_eb1db85589dbe35e92ce52165cf40b53">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1"></a>pt <span class="ot">&lt;-</span> <span class="fu">partable</span>(f6)[,<span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"op"</span>,<span class="st">"rhs"</span>,<span class="st">"pxnames"</span>)]</span>
+<span id="cb95-2"><a href="#cb95-2"></a>pt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     lhs op   rhs       pxnames
+1  ind60 =~    x1    ly_sign[1]
+2  ind60 =~    x2    ly_sign[2]
+3  ind60 =~    x3    ly_sign[3]
+4  dem60 =~    y1    ly_sign[4]
+5  dem60 =~    y2    ly_sign[5]
+6  dem60 =~    y3    ly_sign[6]
+7  dem60 =~    y4    ly_sign[7]
+8  dem65 =~    y5    ly_sign[4]
+9  dem65 =~    y6    ly_sign[5]
+10 dem65 =~    y7    ly_sign[6]
+11 dem65 =~    y8    ly_sign[7]
+12 dem60  ~ ind60   bet_sign[1]
+13 dem65  ~ ind60   bet_sign[2]
+14 dem65  ~ dem60   bet_sign[3]
+15    y1 ~~    y5  Theta_cov[1]
+16    y2 ~~    y6  Theta_cov[2]
+17    y3 ~~    y7  Theta_cov[3]
+18    y4 ~~    y8  Theta_cov[4]
+19    x1 ~~    x1  Theta_var[1]
+20    x2 ~~    x2  Theta_var[2]
+21    x3 ~~    x3  Theta_var[3]
+22    y1 ~~    y1  Theta_var[4]
+23    y2 ~~    y2  Theta_var[5]
+24    y3 ~~    y3  Theta_var[6]
+25    y4 ~~    y4  Theta_var[7]
+26    y5 ~~    y5  Theta_var[8]
+27    y6 ~~    y6  Theta_var[9]
+28    y7 ~~    y7 Theta_var[10]
+29    y8 ~~    y8 Theta_var[11]
+30 ind60 ~~ ind60          &lt;NA&gt;
+31 dem60 ~~ dem60          &lt;NA&gt;
+32 dem65 ~~ dem65          &lt;NA&gt;
+33    x1 ~1          Nu_free[1]
+34    x2 ~1          Nu_free[2]
+35    x3 ~1          Nu_free[3]
+36    y1 ~1          Nu_free[4]
+37    y2 ~1          Nu_free[5]
+38    y3 ~1          Nu_free[6]
+39    y4 ~1          Nu_free[7]
+40    y5 ~1          Nu_free[8]
+41    y6 ~1          Nu_free[9]
+42    y7 ~1         Nu_free[10]
+43    y8 ~1         Nu_free[11]
+44 ind60 ~1                &lt;NA&gt;
+45 dem60 ~1                &lt;NA&gt;
+46 dem65 ~1                &lt;NA&gt;
+47  .p4. ==  .p8.          &lt;NA&gt;
+48  .p5. ==  .p9.          &lt;NA&gt;
+49  .p6. == .p10.          &lt;NA&gt;
+50  .p7. == .p11.          &lt;NA&gt;</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-64_49ca2244a6b5a4880d8bf16bc4e2ea13">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1"></a>pt[pt<span class="sc">$</span>op<span class="sc">==</span><span class="st">"~"</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     lhs op   rhs     pxnames
+12 dem60  ~ ind60 bet_sign[1]
+13 dem65  ~ ind60 bet_sign[2]
+14 dem65  ~ dem60 bet_sign[3]</code></pre>
+</div>
+</div>
+</section>
+<section id="probability-of-direction-3" class="slide level2 smaller">
+<h2>Probability of direction</h2>
+<ul>
+<li>We will use the function <code>hypothesis()</code> from the package <code>brms</code></li>
+<li>Ask specific question of the posterior distributions, for example if we want to know what proportion of the regression <code>dem65~ind60</code> is higher than 0</li>
+<li><code>Post.Prob</code> is the pd under the stated hypothesis</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-65_bce89ad01e71834c33e6377f730afd45">
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1"></a><span class="fu">hypothesis</span>(mc_out, <span class="st">"bet_sign[2] &gt; 0"</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hypothesis Tests for class :
+         Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob
+1 (bet_sign[2]) &gt; 0     0.22      0.17    -0.05     0.49      10.36      0.91
+  Star
+1     
+---
+'CI': 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+'*': For one-sided hypotheses, the posterior probability exceeds 95%;
+for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+</div>
+</div>
+</section>
+<section id="probability-of-direction-4" class="slide level2 smaller">
+<h2>Probability of direction</h2>
+<ul>
+<li>In another example, we want to know what proportion of the regression <code>dem60~ind60</code> is higher than 0.</li>
+<li>Here we can see that 100% of the posterior probability is higher than 0, in such a case <code>Evid.Ratio = Inf</code>, this will happens when the whole distribution fulfills the hypothesis.</li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-66_947d850b24c751749b575276fd5533dc">
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1"></a><span class="fu">hypothesis</span>(mc_out, <span class="st">"bet_sign[1] &gt; 0"</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hypothesis Tests for class :
+         Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio Post.Prob
+1 (bet_sign[1]) &gt; 0      0.7      0.17     0.43     0.99        Inf         1
+  Star
+1    *
+---
+'CI': 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+'*': For one-sided hypotheses, the posterior probability exceeds 95%;
+for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+</div>
+</div>
+</section>
+<section id="probability-of-direction-5" class="slide level2 smaller">
+<h2>Probability of direction</h2>
+<ul>
+<li>Could use this to test equalities between parameters, for example we can test if <code>dem60~ind60</code> is higher than <code>dem65~ind60</code>.</li>
+<li>Here we see 98% of the posteriors state that <code>dem60~ind60</code> is higher than <code>dem65~ind60</code>, and the mean of the difference (<code>dem60~ind60 - dem65~ind60</code>) is <code>Estimate=0.48</code></li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-67_de26a841c730615e957bef8cfb17243b">
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1"></a><span class="fu">hypothesis</span>(mc_out, <span class="st">"bet_sign[1] - bet_sign[2] &gt; 0"</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hypothesis Tests for class :
+                Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
+1 (bet_sign[1]-bet_... &gt; 0     0.48      0.23      0.1     0.86      47.39
+  Post.Prob Star
+1      0.98    *
+---
+'CI': 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+'*': For one-sided hypotheses, the posterior probability exceeds 95%;
+for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+</div>
+</div>
+</section>
+<section id="region-of-practical-equivalence-rope" class="slide level2 smaller">
+<h2>Region of Practical Equivalence (ROPE)</h2>
+<ul>
+<li>Note that so far we have only tested the hypothesis against 0, which would be equivalent to the frequentist null hypothesis tests.</li>
+<li>But we can test against any other.</li>
+<li>Bayesian inference is not based on statistical significance, where effects are tested against “zero”.</li>
+<li>Rather than concluding that an effect is present when it simply differs from zero, we would conclude that the probability of being outside a specific range that can be considered as “practically no effect” (i.e., a negligible magnitude) is sufficient. This range is called the region of practical equivalence (ROPE).</li>
+</ul>
+</section>
+<section id="region-of-practical-equivalence-rope-1" class="slide level2">
+<h2>Region of Practical Equivalence (ROPE)</h2>
+<ul>
+<li>Statistically, the probability of a posterior distribution being different from 0 does not make much sense (the probability of it being different from a single point being infinite). Therefore, the idea underlining ROPE is to let the user define an area around the null value enclosing values that are equivalent to the null value for practical purposes <span class="citation" data-cites="kruschke_bayesian_2018">(<a href="#/references" role="doc-biblioref" onclick="">Kruschke and Liddell 2018</a>)</span></li>
+</ul>
+</section>
+<section id="region-of-practical-equivalence-rope-2" class="slide level2 smaler">
+<h2>Region of Practical Equivalence (ROPE)</h2>
+<ul>
+<li>We would change the value tested, a common recommendations is to use <code>|0.1|</code> as the minimally relevant value for standardized regressions, in this case we find that <code>0.77</code> proportion of the posterior is above <code>0.1</code></li>
+</ul>
+<div class="cell" data-hash="BSEM_APS_2023_cache/revealjs/unnamed-chunk-68_d16ecb663c762633860b58fdd2412be3">
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1"></a><span class="fu">hypothesis</span>(mc_out, <span class="st">"bet_sign[2] &gt; .1"</span>, <span class="at">alpha =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Hypothesis Tests for class :
+              Hypothesis Estimate Est.Error CI.Lower CI.Upper Evid.Ratio
+1 (bet_sign[2])-(.1) &gt; 0     0.12      0.17    -0.15     0.39       3.32
+  Post.Prob Star
+1      0.77     
+---
+'CI': 90%-CI for one-sided and 95%-CI for two-sided hypotheses.
+'*': For one-sided hypotheses, the posterior probability exceeds 95%;
+for two-sided hypotheses, the value tested against lies outside the 95%-CI.
+Posterior probabilities of point hypotheses assume equal prior probabilities.</code></pre>
+</div>
+</div>
+</section>
+<section id="vs.-95-ci" class="slide level2 smaller">
+<h2>89% vs.&nbsp;95% CI</h2>
+<ul>
+<li>Commonly and from the frequentist tradition you will see the use of the 95% Credible interval.</li>
+<li>Naturally, when it came about choosing the CI level to report by default, people started using 95%, the arbitrary convention used in the frequentist world.</li>
+<li>However, some authors suggested that 95% might not be the most appropriate for Bayesian posterior distributions, potentially lacking stability if not enough posterior samples are drawn <span class="citation" data-cites="mcelreath_statistical_2020">(<a href="#/references" role="doc-biblioref" onclick="">McElreath 2020</a>)</span>.</li>
+<li>The proposition was to use 90% instead of 95%. However, recently, <span class="citation" data-cites="mcelreath_statistical_2020">McElreath (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span> suggested that if we were to use arbitrary thresholds in the first place, why not use 89%?</li>
+<li>89 is the highest prime number that does not exceed the already unstable 95% threshold. What does it have to do with anything? Nothing, but it reminds us of the total arbitrariness of these conventions <span class="citation" data-cites="mcelreath_statistical_2020">(<a href="#/references" role="doc-biblioref" onclick="">McElreath 2020</a>)</span>.</li>
+<li>You can use this as the argument <code>alpha</code> argument in the <code>hypothesis</code> function, or as the interpretation values for <code>Post.Prob</code></li>
+</ul>
+</section>
+<section id="caveats" class="slide level2">
+<h2>Caveats</h2>
+<ul>
+<li>Although this allows testing of hypotheses in a similar manner as in the frequentist null-hypothesis testing framework, we strongly argue against using arbitrary cutoffs (e.g., <span class="math inline">\(p &lt; .05\)</span>) to determine the ‘existence’ of an effect.</li>
+<li>ROPE is sensitive to scale, so be aware that the value of interest is representative in the respective scale. For this, standardize parameters are useful to have in a commonly used scale</li>
+</ul>
+</section></section>
+<section>
+<section id="what-to-report" class="title-slide slide level1 center">
+<h1>What to report</h1>
+
+</section>
+<section id="what-to-report-1" class="slide level2 smaller">
+<h2>What to report</h2>
+<ul>
+<li>Process
+<ul>
+<li>What steps where taken in the model building process</li>
+</ul></li>
+<li>Priors
+<ul>
+<li>Specify which priors you choose</li>
+<li>Prior sensitivity</li>
+</ul></li>
+<li>Parameters: present point estimate and uncertainty
+<ul>
+<li>Mean and/or median</li>
+<li>SD and/or CI</li>
+<li>“<strong>Given the observed data</strong>, we are 95% confident that the latent regression falls between X and Y”</li>
+</ul></li>
+</ul>
+</section>
+<section id="what-to-report-2" class="slide level2 smaller">
+<h2>What to report</h2>
+<ul>
+<li><span class="math inline">\(pd\)</span>/ROPE
+<ul>
+<li>Which hypothesis where tested</li>
+<li>Which values where use for ROPE and why</li>
+</ul></li>
+<li>Model fit
+<ul>
+<li>CFI and <span class="math inline">\(\hat{\Gamma}\)</span> point estimate and uncertainty</li>
+</ul></li>
+<li>Model comparison
+<ul>
+<li>LOO or WAIC: IC for each model, <span class="math inline">\(elpd\)</span>, <span class="math inline">\(\Delta elpd\)</span>, standard error, and ratio</li>
+</ul></li>
+</ul>
+</section>
 <section id="resources" class="slide level2">
 <h2>Resources</h2>
 </section>
@@ -736,8 +3468,41 @@ p(\theta|y) \propto p(y|\theta)p(\theta)
 
 </div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-bollen_structural_1989" class="csl-entry" role="doc-biblioentry">
+Bollen, Kenneth A. 1989. <em>Structural <span>Equations</span> with <span>Latent</span> <span>Variables</span></em>. Wiley Series in Probability and Mathematical Statistics. John Wiley &amp; Sons, Inc.
+</div>
+<div id="ref-Gabry_2019_vis" class="csl-entry" role="doc-biblioentry">
+Gabry, Jonah, Daniel Simpson, Aki Vehtari, Michael Betancourt, and Andrew Gelman. 2019. <span>“<span class="nocase">Visualization in Bayesian Workflow</span>.”</span> <em>Journal of the Royal Statistical Society Series A: Statistics in Society</em> 182 (2): 389–402. <a href="https://doi.org/10.1111/rssa.12378">https://doi.org/10.1111/rssa.12378</a>.
+</div>
+<div id="ref-garnier_adapting_2020" class="csl-entry" role="doc-biblioentry">
+Garnier-Villarreal, Mauricio, and Terrence D Jorgensen. 2020. <span>“Adapting <span>Fit</span> <span>Indices</span> for <span>Bayesian</span> <span>Structural</span> <span>Equation</span> <span>Modeling</span>: <span>Comparison</span> to <span>Maximum</span> <span>Likelihood</span>.”</span> <em>Psychological Methods</em> 25 (1): 46–70. <a href="https://doi.org/dx.doi.org/10.1037/met0000224">https://doi.org/dx.doi.org/10.1037/met0000224</a>.
+</div>
+<div id="ref-kruschke_bayesian_2018" class="csl-entry" role="doc-biblioentry">
+Kruschke, John K., and Torrin M. Liddell. 2018. <span>“The <span>Bayesian</span> <span>New</span> <span>Statistics</span>: <span>Hypothesis</span> Testing, Estimation, Meta-Analysis, and Power Analysis from a <span>Bayesian</span> Perspective.”</span> <em>Psychonomic Bulletin &amp; Review</em> 25 (1): 178–206. <a href="https://doi.org/10.3758/s13423-016-1221-4">https://doi.org/10.3758/s13423-016-1221-4</a>.
+</div>
+<div id="ref-makowski_indices_2019" class="csl-entry" role="doc-biblioentry">
+Makowski, Dominique, Mattan S. Ben-Shachar, S. H. Annabel Chen, and Daniel Lüdecke. 2019. <span>“Indices of <span>Effect</span> <span>Existence</span> and <span>Significance</span> in the <span>Bayesian</span> <span>Framework</span>.”</span> <em>Frontiers in Psychology</em> 10 (December): 2767. <a href="https://doi.org/10.3389/fpsyg.2019.02767">https://doi.org/10.3389/fpsyg.2019.02767</a>.
+</div>
+<div id="ref-mcelreath_statistical_2020" class="csl-entry" role="doc-biblioentry">
+McElreath, Richard. 2020. <em>Statistical Rethinking: A <span>Bayesian</span> Course with Examples in <span>R</span> and <span>Stan</span></em>. 2nd ed. <span>CRC</span> Texts in Statistical Science. Boca Raton: Taylor; Francis, CRC Press.
+</div>
+<div id="ref-merkle2023opaque" class="csl-entry" role="doc-biblioentry">
+Merkle, Edgar C., Oludare Ariyo, Sonja D. Winter, and Mauricio Garnier-Villarreal. 2023. <span>“Opaque Prior Distributions in Bayesian Latent Variable Models.”</span> <a href="https://arxiv.org/abs/2301.08667">https://arxiv.org/abs/2301.08667</a>.
+</div>
+<div id="ref-schad_workflow_2022" class="csl-entry" role="doc-biblioentry">
+Schad, Daniel J., Bruno Nicenboim, Paul-Christian Bürkner, Michael Betancourt, and Shravan Vasishth. 2022. <span>“Workflow Techniques for the Robust Use of Bayes Factors.”</span> <em>Psychological Methods</em>, March. <a href="https://doi.org/10.1037/met0000472">https://doi.org/10.1037/met0000472</a>.
+</div>
+<div id="ref-tendeiro_review_2019" class="csl-entry" role="doc-biblioentry">
+Tendeiro, Jorge N., and Henk A. L. Kiers. 2019. <span>“A Review of Issues about Null Hypothesis <span>Bayesian</span> Testing.”</span> <em>Psychological Methods</em> 24 (6): 774–95. <a href="https://doi.org/10.1037/met0000221">https://doi.org/10.1037/met0000221</a>.
+</div>
+<div id="ref-vehtari_practical_2017" class="csl-entry" role="doc-biblioentry">
+Vehtari, Aki, Andrew Gelman, and Jonah Gabry. 2017. <span>“Practical <span>Bayesian</span> Model Evaluation Using Leave-One-Out Cross-Validation and <span>WAIC</span>.”</span> <em>Statistics and Computing</em> 27 (5): 1413–32. <a href="https://doi.org/10.1007/s11222-016-9696-4">https://doi.org/10.1007/s11222-016-9696-4</a>.
+</div>
 <div id="ref-new_rhat" class="csl-entry" role="doc-biblioentry">
 Vehtari, Aki, Andrew Gelman, Daniel Simpson, Bob Carpenter, and Paul-Christian Bürkner. 2021. <span>“<span class="nocase">Rank-Normalization, Folding, and Localization: An Improved <span class="math inline">\(\widehat{R}\)</span> for Assessing Convergence of MCMC (with Discussion)</span>.”</span> <em>Bayesian Analysis</em> 16 (2): 667–718. <a href="https://doi.org/10.1214/20-BA1221">https://doi.org/10.1214/20-BA1221</a>.
+</div>
+<div id="ref-watanabeAsymptoticEquivalenceBayesa" class="csl-entry" role="doc-biblioentry">
+Watanabe, Sumio. 2010. <span>“Asymptotic Equivalence of Bayes Cross Validation and Widely Applicable Information Criterion in Singular Learning Theory.”</span> <em>Journal of Machine Learning Research</em> 11: 3571–94.
 </div>
 </div>
 </section></section>

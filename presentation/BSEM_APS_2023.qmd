@@ -24,18 +24,20 @@ library(blavaan, quietly=TRUE)
 library(lavaan, quietly=TRUE)
 library(brms, quietly=TRUE)
 library(bayesplot, quietly=TRUE)
+library(semPlot, quietly=TRUE)
 
 ```
 
-## Topics
+## Topics {.smaller}
 
 
 - Introduction to Bayesian probability
 - Evaluation of MCMC convergence and efficiency
 - Priors: selection and relevance
-- Prior predictive simulation
+- Prior predictive checks
 - BCFA: basic measurement model
 - Model fit evaluation
+- Model comparison
 - BSEM: basic latent regression
 - Probability of direction
 - What to report
@@ -270,6 +272,45 @@ ff <- bsem(model, data=PoliticalDemocracy, std.lv=T,
 plot(ff, pars = 12:14)
 ```
 
+## Convergence
+```{r, include=F}
+#| echo: false
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+model <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ y1 + y2 + y3 + y4
+     dem65 =~ y5 + y6 + y7 + y8
+
+  # regressions
+    dem60 ~ ind60
+    dem65 ~ ind60 + dem60
+
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y4 + y6
+    y3 ~~ y7
+    y4 ~~ y8
+    y6 ~~ y8
+'
+
+ff2 <- bsem(model, data=PoliticalDemocracy, std.lv=T)
+```
+
+```{r}
+#| echo: false
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+plot(ff2, pars = 12:14)
+```
+
 ## Efficiency {.smaller}
 
 - Effective sample size (ESS) measures sampling efficiency in the distribution (related e.g. to efficiency of mean and median estimates), and is well defined even if the chains do not have finite mean or variance [@new_rhat].
@@ -351,7 +392,1308 @@ informative
 - $p(\theta) \sim N(0, .05)$
 - $p(\theta) \sim U(0, 1)$
 
+## Priors
+
+- Have more influence on the posterior for smaller samples
+- Consider theory, data, and model characteristics
+- Are scale dependent, what is a weakly informative prior in one case might be strong in another
+- The "intended" priors might differ from the priors in the model due to model constraints, as opaque priors [@merkle2023opaque]
+
+# Prior predictive checks
+
+## Prior predictive checks (PPC)
+
+- Generate data from the priors in order to asses whether a prior is appropriate [@Gabry_2019_vis]. 
+- A posterior predictive check generates replicated data according to the posterior predictive distribution. 
+- In contrast, the prior predictive check generates data according to the prior predictive distribution 
+
+$y^{sim} ∼ p(y)$
+
+## Prior predictive checks (PPC)
+
+- Like the posterior predictive distribution with no observed data, so that a PPC is nothing more than the limiting case of a posterior predictive check with no data.
+- Simulating parameters $θ^{sim}∼p(\theta)$ according to the priors, then simulating data $y^{sim}∼p(y∣ \theta^{sim})$  according to the sampling distribution given the simulated parameters
+- The result is a simulation from the joint distribution, $(y^{sim},θ^{sim})∼p(y,\theta)$ and thus $y^{sim}∼p(y)$ is a simulation from the prior predictive distribution.
+
+## Prior predictive checks (PPC)
+
+```{r, include=F}
+#| echo: false
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+priors <- dpriors(nu="normal(3,2)",
+                  lambda="normal(0.4, 2)",
+                  beta="normal(0.4, 2)",
+                  theta="gamma(1,1)[sd]")
+
+model <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4
+     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8
+
+  # regressions
+    dem60 ~ ind60
+    dem65 ~ ind60 + dem60
+
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y4 + y6
+    y3 ~~ y7
+    y4 ~~ y8
+    y6 ~~ y8
+'
+
+fit_wi <- bsem(model, data=PoliticalDemocracy, std.lv=T,
+            meanstructure=T, test = "none",
+            dp=priors, prisamp = T)
+```
+
+
+```{r, include=T}
+#| echo: true
+#| code-fold: false
+#| eval: false
+#| warning: false
+#| message: false
+
+priors <- dpriors(nu="normal(3,2)",
+                  lambda="normal(0.4, 2)",
+                  beta="normal(0.4, 2)",
+                  theta="gamma(1,1)[sd]")
+
+model <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4
+     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8
+
+  # regressions
+    dem60 ~ ind60
+    dem65 ~ ind60 + dem60
+
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y4 + y6
+    y3 ~~ y7
+    y4 ~~ y8
+    y6 ~~ y8
+'
+
+fit_wi <- bsem(model, data=PoliticalDemocracy, std.lv=T,
+            meanstructure=T, test = "none",
+            dp=priors, prisamp = T)
+```
+
+
+## Prior predictive checks (PPC)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+## factor loadings
+plot(fit_wi, pars=1:11, plot.type = "dens")
+```
+
+## Prior predictive checks (PPC)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+## factor regressions
+plot(fit_wi, pars=12:14, plot.type = "dens")
+```
+
+## Prior predictive checks (PPC)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+## residual variances
+plot(fit_wi, pars=15:31, plot.type = "dens")
+```
+
+
+## Prior predictive checks (PPC)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+## item intercepts
+plot(fit_wi, pars=32:42, plot.type = "dens")
+```
+
+## Prior predictive checks (PPC)
+
+- Default priors
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+dpriors()
+```
+
+```{r, include=F}
+#| echo: false
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+fit_df <- bsem(model, data=PoliticalDemocracy, std.lv=T,
+            meanstructure=T, test = "none",
+            prisamp = T)
+```
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: false
+#| warning: false
+#| message: false
+
+fit_df <- bsem(model, data=PoliticalDemocracy, std.lv=T,
+            meanstructure=T, test = "none",
+            prisamp = T)
+```
+
+
+## Prior predictive checks (PPC)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+## factor loadings
+plot(fit_df, pars=1:11, plot.type = "dens")
+```
+
+## Prior predictive checks (PPC)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+## factor regressions
+plot(fit_df, pars=12:14, plot.type = "dens")
+```
+
+## Prior predictive checks (PPC)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+## residual variances
+plot(fit_df, pars=15:31, plot.type = "dens")
+```
+
+
+## Prior predictive checks (PPC)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+## item intercepts
+plot(fit_df, pars=32:42, plot.type = "dens")
+```
+
+
+# BCFA: basic measurement model
+
+## CFA: measurement models
+- A construct is what the indicators share
+
+![](cfa1.png)
+
+## Bayesian CFA
+
+For this example we will use the Industrialization and Political Democracy example [@bollen_structural_1989]
+
+```{r}
+#| echo: false
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+mod1 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ y1 + y2 + y3 + y4
+     dem65 =~ y5 + y6 + y7 + y8'
+f1 <- cfa(mod1, data=PoliticalDemocracy, std.lv=T)
+```
+
+```{r}
+#| echo: false
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+semPaths(f1, what="path",
+         style="lisrel",
+         layout = "tree2",
+         edge.color = "black",esize=1)
+```
+
+## Bayesian CFA
+
+```{r}
+#| echo: false
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+mod2 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ y1 + y2 + y3 + y4 + y5
+     dem65 =~ y5 + y6 + y7 + y8 + y4
+
+  # residual correlations
+    y1 ~~ y5
+    x1 ~~ y2
+
+'
+f2 <- cfa(mod2, data=PoliticalDemocracy, std.lv=T)
+```
+
+```{r}
+#| echo: false
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+semPaths(f2, what="path",
+         style="lisrel",
+         layout = "tree2",
+         edge.color = "black",esize=1)
+```
+
+## Measurement models
+
+-A model is fitted to data and all models are wrong to some degree, the data may not be explained perfectly
+- Interpretations must involve a subjective component and solutions will not make sense
+- Model fit should be evaluated
+- Tests theoretical structure
+
+## Bayesian CFA
+
+- Basic measurement model (default priors)
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+mod1 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ y1 + y2 + y3 + y4
+     dem65 =~ y5 + y6 + y7 + y8'
+
+f1 <- bcfa(mod1, data=PoliticalDemocracy, 
+           meanstructure=T, std.lv=T,
+           burnin=1000, sample=1000, n.chains=3)
+```
+
+## Convergence and efficiency
+
+- Convergence
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+max(blavInspect(f1, "psrf"))
+```
+
+- Efficiency
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+min(blavInspect(f1, "neff"))
+```
+
+## Parameter posteriors
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(f1, rsquare=T)
+```
+
+## Bayesian CFA
+
+- Basic measurement model (weakly informative priors)
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+priors <- dpriors(nu="normal(3,2)",
+                  lambda="normal(1, 3)",
+                  theta="gamma(1,1)[sd]")
+
+mod1 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ y1 + y2 + y3 + y4
+     dem65 =~ y5 + y6 + y7 + y8'
+
+f2 <- bcfa(mod1, data=PoliticalDemocracy, 
+           meanstructure=T, std.lv=T, dp=priors,
+           burnin=1000, sample=1000, n.chains=3)
+```
+
+
+## Convergence and efficiency
+
+- Convergence
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+max(blavInspect(f2, "psrf"))
+```
+
+- Efficiency
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+min(blavInspect(f2, "neff"))
+```
+
+## Parameter posteriors
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(f2, rsquare=T)
+```
+
+## Cross time residuals
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+mod3 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ y1 + y2 + y3 + y4
+     dem65 =~ y5 + y6 + y7 + y8
+
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y6
+    y3 ~~ y7
+    y4 ~~ y8
+'
+
+f3 <- bcfa(mod3, data=PoliticalDemocracy, 
+           meanstructure=T, std.lv=T, dp=priors,
+           burnin=1000, sample=1000, n.chains=3)
+```
+
+## Convergence and efficiency
+
+- Convergence
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+max(blavInspect(f3, "psrf"))
+```
+
+- Efficiency
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+min(blavInspect(f3, "neff"))
+```
+
+## Parameter posteriors
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(f3, standardized=T, rsquare=T)
+```
+
+
+
+## Cross time factor loadings
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+mod4 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4
+     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8
+
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y6
+    y3 ~~ y7
+    y4 ~~ y8
+'
+
+f4 <- bcfa(mod4, data=PoliticalDemocracy, 
+           meanstructure=T, std.lv=T, dp=priors,
+           burnin=1000, sample=1000, n.chains=3)
+```
+
+## Convergence and efficiency
+
+- Convergence
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+max(blavInspect(f4, "psrf"))
+```
+
+- Efficiency
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+min(blavInspect(f4, "neff"))
+```
+
+## Parameter posteriors
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(f4, standardized=T, rsquare=T)
+```
+
+
+# Model fit evaluation
+
+## Model fit
+
+"With respect to model fit, researchers do not seem adequately sensitive to the fundamental reality that there is no true model…, that all models are wrong to some degree, even in the population, and that the best one can hope for is to identify a parsimonious, substantively meaningful model that fits observed data adequately well. At the same time, one must recognize that there may well be other models that fit the data to approximately the same degree… It is clear that a finding of good fit does not imply that a model is correct or true, but only plausible" - MacCallum & Austin, 2000
+
+## Posterior predictive $p$-value {.smaller}
+
+- Measure of the model's absolute fit
+- Compares observed likelihood ratio test statistics to likelihood ratio test statistics generated from the model's posterior predictive distribution.
+  - Compute the observed LRT statistic
+  - Generate artificial data from the model
+  - Compute the posterior predictive LRT of the artificial data
+  - Record which LRT is higher
+- The $PPP$ is the proportion of times the posterior LRT is larger.
+- Perfect fit is 0.5
+
+## Posterior predictive $p$-value
+
+- In practice behaves similar to the $\chi^2$ $p$-value in frequentist SEM
+- As sample size increases will reject models for small deviations
+- Not recommended to use as general practice
+
+## Overall model fit (approximate indices)
+
+- One of the first steps is to evaluate the model's global fit
+- Commonly done by presenting multiple fit indices, with some of the most common being based on the model's $\chi^2$. 
+- We have developed Bayesian versions of these indices [@garnier_adapting_2020] that can be computed with ```blavaan```
+
+## Noncentrality-Based Fit Indices
+
+- This group of indices compares the hypothesized model against the perfect saturated model. 
+- It specifically uses the noncentrality parameter $\hat{\lambda} = \chi^2 - df$, with the $df$ being adjusted by different model/data characteristics.
+- Indices include Root Mean Square Error of approximation (RMSEA), McDonald’s centrality index (Mc), gamma-hat ($\hat{\Gamma}$), and adjusted gamma-hat ($\hat{\Gamma}_{adj}$).
+
+## Incremental Fit Indices
+
+- Compares the hypothesized model with the *worst* possible model, so they are called incremental indices. 
+- Comparing your model's $\chi^2_H$ to the *null* model's $\chi^2_0$ in different ways. 
+- Including the Comparative Fit Index (CFI), Tucker-Lewis Index (TLI), and Normed Fit Index (NFI). 
+
+## Model fit in ```blavaan```
+
+- We can directly calculate the noncentrality fit indices
+- To estimate the incremental indices we need to estimate the *null* model fo comparison
+
+## Null model
+
+- Standard null model: only estimate variances and means of the indicators
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+HS.model_null <- '
+x1 ~~ x1 
+x2 ~~ x2 
+x3 ~~ x3
+y1 ~~ y1
+y2 ~~ y2
+y3 ~~ y3
+y4 ~~ y4
+y5 ~~ y5
+y6 ~~ y6
+y7 ~~ y7
+y8 ~~ y8'
+
+fit_null <- bcfa(HS.model_null, 
+                 data=PoliticalDemocracy,
+                 meanstructure=T)
+```
+
+## Convergence and efficiency
+
+- Convergence
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+max(blavInspect(fit_null, "psrf"))
+```
+
+- Efficiency
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+min(blavInspect(fit_null, "neff"))
+```
+
+## Bayesian fit indices
+
+- Basic measurement model (no loadings constraints or residual correlations)
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+fits_all <- blavFitIndices(f1, baseline.model = fit_null)
+summary(fits_all, central.tendency = c("mean","median"), prob = .90)
+```
+
+## Indices posteriors plots
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+dist_fits <- data.frame(fits_all@indices)
+mcmc_pairs(dist_fits, pars = c("BRMSEA","BGammaHat","BCFI"),
+           diag_fun = "hist")
+```
+
+
+## Model with cross time parameters
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+fits_all4 <- blavFitIndices(f4, baseline.model = fit_null)
+summary(fits_all4, central.tendency = c("mean","median"), prob = .90)
+```
+
+## Model with cross time parameters
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+dist_fits4 <- data.frame(fits_all4@indices)
+mcmc_pairs(dist_fits4, pars = c("BRMSEA","BGammaHat","BCFI"),
+           diag_fun = "hist")
+```
+
+## Bayesian fit indices {.smaller}
+
+- CFI and $\hat{\Gamma}$ are the most recommended indices [@garnier_adapting_2020]
+- They are less sensitive to data and model characteristics
+- Approximating "misfit" rather than other factors
+- Be careful with strict cutoffs to define "good" models
+  - Closer to 1 means "better" fit
+- They are effect size measures of misfit, rather than tests of it
+- Credible intervals allow us to evaluate uncertainty in model fit
+
+# Model comparison
+
+## Ockam’s Razor
+
+Models with fewer assumptions are to be preferred
+
+## Statistical errors
+
+- Overfitting: leads to poor predictions by learning too much from the data.
+- Underfitting: leads to poor predictions by learning to little from data
+
+## Information and uncertainty
+
+- How much is our uncertainty reduce by learning an outcome?
+- Information: the reduction in uncertainty derived from learning an outcome.
+- Measure of uncertainty:
+  - Continuous.
+  - Increase as the number of events increase.
+  - Should be additive.
+  
+## Log-probability  
+
+- The uncertainty contained in a probability distribution is the average log-probability of an event
+- Average log-probability of a model is the estimate of relative distance of the model from the target.
+- The bayesian log-probability score is Log- Pointwise-Predictive-Density ($lppd$)
+- $lppd$ estimates the deviance across all the posterior distribution (not wasting information)
+
+## What prediction do we care about?
+
+- What do we want our model to predict?
+- Predicting observed data is easy, and over estimates the model accuracy
+- Out of sample prediction tests the accuracy of predicting observations that are not included in the model. True test of model performance
+
+## What prediction do we care about?
+
+![](out_sample.png)
+
+## Information criteria
+
+- These methods intend to evaluate the out-of-sample predictive accuracy of the models, and compare that performance. This is the ability to predict a datapoint that hasn't been used in the **training** model [@mcelreath_statistical_2020]
+- Hard to interpret by themselves, good for comparison
+- $DIC$: Deviance Information criteria
+- $WAIC$: widely applicable information criteria
+- $LOO$: Leave-one-out information criteria
+
+## DIC
+
+- Based on the overall model log-likelihood
+- Penalized by the effective number of parameters ($efp$)
+- Lower values indicates better fit
+- Ignores the posterior distribution variability
+
+$DIC = -2LL + 2efp$
+
+## WAIC
+
+- WAIC [@watanabeAsymptoticEquivalenceBayesa] fully Bayesian generalization of the Akaike Information Criteria (AIC), where we have a measure of uncertainty/information of the model prediction for each row in the data across all posterior draws
+- This is the Log-Pointwise-Predictive-Density (lppd). The WAIC is defined as
+
+$WAIC= -2lppd + 2efp_{WAIC}$
+
+## LOO
+
+- The LOO measures the predictive density of each observation holding out one observation at the time and use the rest of the observations to update the prior. 
+- This estimation is calculated via [@vehtari_practical_2017]:
+
+$LOO = -2\sum_{i=1}^{n} log \Bigg(\frac{\sum^{S}_{s =1} w^{s}_{i}f(y_{i}|\theta^{s})}{\sum^{s}_{s=1} w^{s}_{i}}\Bigg)$
+
+## Model comparison {.smaller}
+
+- Both WAIC and LOO approximate the models' performance across posterior draws, we are able to calculate a standard error for them and for model comparisons involving  them. 
+- Differences estimate the differences across the Expected Log-Pointwise-Predictive-Density ($elpd$), and the standard error of the respective difference.
+- There are no clear cutoff rules on how to interpret and present these comparisons, and the researchers need to use their expert knowledge as part of the decision process. 
+- The best recommendation is the present the differences in $elpd$ ($\Delta elpd$), the standard error, and the ratio between them. If the ratio is at least 2 can be consider evidence of differences between the models, and a ratio of 4 would be considered stronger evidence.
+
+## Bayes factor {.smaller}
+
+- In the Bayesian literature you will the the use of the Bayes factor (BF) to compare models. 
+- There are a number of criticisms related to the use of the BF in BSEM, including (1) the BF is unstable for large models (like most SEMs), (2) it is highly sensitive to model priors, (3) it requires strong priors to have stable estimation of it, (4) it can require large number of posterior draws, (5) the estimation using the marginal likelihood ignores a lot of information from the posterior distributions. 
+- For more details on this discussion please see @tendeiro_review_2019 and @schad_workflow_2022. 
+- These criticisms lead us to recommend against use of the BF in everyday BSEM estimation. 
+- For researchers who commit to their prior distributions and who commit to exploring the noise in their computations, the BF can used to describe the relative odds of one model over another, which is more intuitive than some other model comparison metrics.
+
+## Model comparison {.smaller}
+
+- Default priors vs weakly informative priors
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+bc12 <- blavCompare(f1, f2)
+```
+
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+abs(bc12$diff_loo[1] / bc12$diff_loo[2])
+```
+
+## Model comparison
+
+- Default priors vs weakly informative priors
+  - Small difference indicate that both models have similar out-of-sample predictive accuracy
+  - Can choose either model to continue (theory), I am keeping the weakly informative priors model
+
+
+## Model comparison {.smaller}
+
+- Should we keep the residual correlations?
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+bc23 <- blavCompare(f2, f3)
+```
+
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+abs(bc23$diff_loo[1] / bc23$diff_loo[2])
+```
+
+## Model comparison
+
+- Should we keep the residual correlations?
+  - Small difference indicate that both models have similar out-of-sample predictive accuracy
+  - Can choose either model to continue (theory), I am keeping the residual correlations model
+  - Because the correlations are above $r > 0.2$ and they are theoretical relevant
+  
+
+## Model comparison {.smaller}
+
+- Should we keep the equality constraints in factor loadings?
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+bc34 <- blavCompare(f3, f4)
+```
+
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+abs(bc34$diff_loo[1] / bc34$diff_loo[2])
+```
+
+
+## Model comparison
+
+- Should we keep the equality constraints in factor loadings?
+  - Small difference indicate that both models have similar out-of-sample predictive accuracy
+  - Can choose either model to continue (theory), I am keeping the constrained mode
+  - Because the constraints are theoretically relevant (longitudinal equivalence)
+
+## Model comparison {.smaller}
+
+- Should we keep the factor correlations?
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+mod5 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4
+     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8
+     
+     ind60 ~~ 0*dem60 + 0*dem65
+     dem60 ~~ 0*dem65
+
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y6
+    y3 ~~ y7
+    y4 ~~ y8
+'
+
+f5 <- bcfa(mod5, data=PoliticalDemocracy, 
+           meanstructure=T, std.lv=T, dp=priors,
+           burnin=1000, sample=1000, n.chains=3)
+```
+
+
+## Model comparison {.smaller}
+
+- Should we keep the factor correlations?
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+bc45 <- blavCompare(f4, f5)
+```
+
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+abs(bc45$diff_loo[1] / bc45$diff_loo[2])
+```
+
+## Model comparison
+
+- Should we keep the factor correlations?
+  - Large difference indicates that there is difference between the models accuracy
+  - Model with factor correlations fits better
+
+# BSEM: latent regression
+
+## Latent Regressions
+
+- Switch from correlations to regressions
+- Theoretically meaningful relations
+- Add priors for the regression slopes
+
+## Latent Regressions
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+priors <- dpriors(nu="normal(3,2)",
+                  lambda="normal(1, 3)",
+                  beta="normal(0.4, 2)",
+                  theta="gamma(1,1)[sd]")
+
+mod6 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4
+     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8
+
+  # regressions
+    dem60 ~ ind60
+    dem65 ~ ind60 + dem60
+
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y6
+    y3 ~~ y7
+    y4 ~~ y8
+'
+
+f6 <- bsem(mod6, data=PoliticalDemocracy, 
+           meanstructure=T, std.lv=T, dp=priors,
+           burnin=1000, sample=1000, n.chains=3)
+```
+
+## Convergence and efficiency
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+max(blavInspect(f6, "psrf"))
+min(blavInspect(f6,"neff"))
+```
+
+## Parameter posteriors
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(f6, standardize=T, rsquare=T)
+```
+
+## Constrain regressions with priors
+
+- Can constraint parameters to be close to 0, but not exactly 0
+- Allows space the parameter to move out of the constraint if the data requires it
+- Can state specific hypothesis with priors
+
+## Constrain regressions with priors
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+mod7 <- '
+  # latent variable definitions
+     ind60 =~ x1 + x2 + x3
+     dem60 =~ a*y1 + b*y2 + c*y3 + d*y4
+     dem65 =~ a*y5 + b*y6 + c*y7 + d*y8
+
+  # regressions
+    dem60 ~ ind60
+    dem65 ~ prior("normal(0,.08)")*ind60 + dem60
+
+  # residual correlations
+    y1 ~~ y5
+    y2 ~~ y6
+    y3 ~~ y7
+    y4 ~~ y8
+'
+
+f7 <- bsem(mod7, data=PoliticalDemocracy, 
+           meanstructure=T, std.lv=T, dp=priors,
+           burnin=1000, sample=1000, n.chains=3)
+```
+
+
+## Parameter posteriors
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+summary(f7, standardize=T, rsquare=T)
+```
+
+## Model comparison
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+bc67 <- blavCompare(f6, f7)
+```
+
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+abs(bc67$diff_loo[1] / bc67$diff_loo[2])
+```
+
+
+## Probability of direction {.smaller}
+
+- $pd$ is an index of effect existence (0% to 100%) representing the certainty with which an effect goes in a particular direction (i.e., is positive or negative) [@makowski_indices_2019]. 
+- Beyond its simplicity of interpretation, this index also presents other interesting properties:
+  - It is independent from the model: It is solely based on the posterior distributions and does not require any additional information from the data or the model.
+  - It is robust to the scale of both the response variable and the predictors.
+  - It is strongly correlated with the frequentist p-value, and can thus be used to draw parallels and give some reference to readers non-familiar with Bayesian statistics.
+
+- Probability that a parameter (described by its posterior distribution) is above or below a chosen cutoff, an explicit hypothesis. 
+- Although differently expressed, this index is fairly similar (i.e., is strongly correlated) to the frequentist p-value. 
+
+
+## Probability of direction {.smaller}
+
+- Extract the posterior draws into a matrix
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+mc_out <- as.matrix(blavInspect(f6, "mcmc"))
+dim(mc_out)
+colnames(mc_out)
+```
+
+## Probability of direction {.smaller}
+
+- Find the respective parameter names, and focus on regressions
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+pt <- partable(f6)[,c("lhs","op","rhs","pxnames")]
+pt
+```
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+pt[pt$op=="~",]
+```
+
+
+## Probability of direction {.smaller}
+
+- We will use the function ```hypothesis()``` from the package ```brms```
+- Ask specific question of the posterior distributions, for example if we want to know what proportion of the regression ```dem65~ind60``` is higher than 0
+- ```Post.Prob``` is the pd under the stated hypothesis
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+
+hypothesis(mc_out, "bet_sign[2] > 0", alpha = 0.05)
+```
+
+## Probability of direction {.smaller}
+
+- In another example, we want to know what proportion of the regression ```dem60~ind60``` is higher than 0. 
+- Here we can see that 100% of the posterior probability is higher than 0, in such a case ```Evid.Ratio = Inf```, this will happens when the whole distribution fulfills the hypothesis.
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+hypothesis(mc_out, "bet_sign[1] > 0", alpha = 0.05)
+```
+
+
+## Probability of direction {.smaller}
+
+- Could use this to test equalities between parameters, for example we can test if ```dem60~ind60``` is higher than ```dem65~ind60```. 
+- Here we see 98% of the posteriors state that ```dem60~ind60``` is higher than ```dem65~ind60```, and the mean of the difference (```dem60~ind60 - dem65~ind60```) is ```Estimate=0.48```
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+hypothesis(mc_out, "bet_sign[1] - bet_sign[2] > 0", alpha = 0.05)
+```
+
+## Region of Practical Equivalence (ROPE) {.smaller}
+
+- Note that so far we have only tested the hypothesis against 0, which would be equivalent to the frequentist null hypothesis tests. 
+- But we can test against any other. 
+- Bayesian inference is not based on statistical significance, where effects are tested against “zero”. 
+- Rather than concluding that an effect is present when it simply differs from zero, we would conclude that the probability of being outside a specific range that can be considered as “practically no effect” (i.e., a negligible magnitude) is sufficient. This range is called the region of practical equivalence (ROPE).
+
+## Region of Practical Equivalence (ROPE)
+
+- Statistically, the probability of a posterior distribution being different from 0 does not make much sense (the probability of it being different from a single point being infinite). Therefore, the idea underlining ROPE is to let the user define an area around the null value enclosing values that are equivalent to the null value for practical purposes [@kruschke_bayesian_2018]
+
+## Region of Practical Equivalence (ROPE) {.smaler}
+
+- We would change the value tested, a common recommendations is to use ```|0.1|``` as the minimally relevant value for standardized regressions, in this case we find that ```0.77``` proportion of the posterior is above ```0.1``` 
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+hypothesis(mc_out, "bet_sign[2] > .1", alpha = 0.05)
+```
+
+
+## 89% vs. 95% CI {.smaller}
+
+- Commonly and from the frequentist tradition you will see the use of the 95% Credible interval. 
+- Naturally, when it came about choosing the CI level to report by default, people started using 95%, the arbitrary convention used in the frequentist world. 
+- However, some authors suggested that 95% might not be the most appropriate for Bayesian posterior distributions, potentially lacking stability if not enough posterior samples are drawn [@mcelreath_statistical_2020].
+- The proposition was to use 90% instead of 95%. However, recently, @mcelreath_statistical_2020 suggested that if we were to use arbitrary thresholds in the first place, why not use 89%?
+- 89 is the highest prime number that does not exceed the already unstable 95% threshold. What does it have to do with anything? Nothing, but it reminds us of the total arbitrariness of these conventions [@mcelreath_statistical_2020].
+- You can use this as the argument ```alpha``` argument in the ```hypothesis``` function, or as the interpretation values for ```Post.Prob```
+
+## Caveats
+
+- Although this allows testing of hypotheses in a similar manner as in the frequentist null-hypothesis testing framework, we strongly argue against using arbitrary cutoffs (e.g., $p < .05$) to determine the 'existence' of an effect.
+- ROPE is sensitive to scale, so be aware that the value of interest is representative in the respective scale. For this, standardize parameters are useful to have in a commonly used scale
+
+
+# What to report
+
+## What to report {.smaller}
+
+- Process
+  - What steps where taken in the model building process
+- Priors
+  - Specify which priors you choose
+  - Prior sensitivity
+- Parameters: present point estimate and uncertainty
+  - Mean and/or median
+  - SD and/or CI
+  - "**Given the observed data**, we are 95% confident that the latent regression falls between X and Y"
+
+## What to report {.smaller}
+
+- $pd$/ROPE
+  - Which hypothesis where tested
+  - Which values where use for ROPE and why
+- Model fit
+  - CFI and $\hat{\Gamma}$ point estimate and uncertainty
+- Model comparison
+  - LOO or WAIC: IC for each model, $elpd$, $\Delta elpd$, standard error, and ratio
+
 ## Resources
 
-
 ## References
+
+
+
