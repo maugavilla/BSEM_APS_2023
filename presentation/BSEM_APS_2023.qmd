@@ -214,7 +214,7 @@ A Bayesian is interested in how the parameters can be inferred from the data, no
 # Convergence and Efficiency Evaluation
 
 ## Terms
-- Iterations: number to times we want the MCMC algorithm to run (estimate)
+- Iterations: number of times we want the MCMC algorithm to run (estimate)
   - Burnin: number of iteration to use to calibrate the model find a stable solution
   - Sample: number of iterations to save after burnin, to build the posterior distributions
 - Chains: number of times we estimate models N-iterations, with different starting values
@@ -339,7 +339,7 @@ your data
 - Account for uncertainty
 - Allow us to set clear boundaries, meaningful for the theory
 - Theory driven
-- Heps stabilize models with smaller sample sizes
+- Helps stabilize models with smaller sample sizes
 
 ## Prior: disadvantages
 - More decisions to make
@@ -403,7 +403,7 @@ informative
 
 ## Prior predictive checks (PPC)
 
-- Generate data from the priors in order to asses whether a prior is appropriate [@Gabry_2019_vis]. 
+- Generate data from the priors in order to assess whether a prior is appropriate [@Gabry_2019_vis]. 
 - A posterior predictive check generates replicated data according to the posterior predictive distribution. 
 - In contrast, the prior predictive check generates data according to the prior predictive distribution 
 
@@ -713,7 +713,7 @@ semPaths(f2, what="path",
 
 ## Measurement models
 
--A model is fitted to data and all models are wrong to some degree, the data may not be explained perfectly
+- A model is fitted to data and all models are wrong to some degree, the data may not be explained perfectly
 - Interpretations must involve a subjective component and solutions will not make sense
 - Model fit should be evaluated
 - Tests theoretical structure
@@ -1012,7 +1012,7 @@ summary(f4, standardized=T, rsquare=T)
 ## Model fit in ```blavaan```
 
 - We can directly calculate the noncentrality fit indices
-- To estimate the incremental indices we need to estimate the *null* model fo comparison
+- To estimate the incremental indices we need to estimate the *null* model for comparison
 
 ## Null model
 
@@ -1214,7 +1214,7 @@ $LOO = -2\sum_{i=1}^{n} log \Bigg(\frac{\sum^{S}_{s =1} w^{s}_{i}f(y_{i}|\theta^
 
 ## Bayes factor {.smaller}
 
-- In the Bayesian literature you will the the use of the Bayes factor (BF) to compare models. 
+- In the Bayesian literature you will find the use of the Bayes factor (BF) to compare models. 
 - There are a number of criticisms related to the use of the BF in BSEM, including (1) the BF is unstable for large models (like most SEMs), (2) it is highly sensitive to model priors, (3) it requires strong priors to have stable estimation of it, (4) it can require large number of posterior draws, (5) the estimation using the marginal likelihood ignores a lot of information from the posterior distributions. 
 - For more details on this discussion please see @tendeiro_review_2019 and @schad_workflow_2022. 
 - These criticisms lead us to recommend against use of the BF in everyday BSEM estimation. 
@@ -1282,7 +1282,7 @@ abs(bc23$diff_loo[1] / bc23$diff_loo[2])
 - Should we keep the residual correlations?
   - Small difference indicate that both models have similar out-of-sample predictive accuracy
   - Can choose either model to continue (theory), I am keeping the residual correlations model
-  - Because the correlations are above $r > 0.2$ and they are theoretical relevant
+  - Because the correlations are above $r > 0.2$ and they are theoretically relevant
   
 
 ## Model comparison {.smaller}
@@ -1453,7 +1453,7 @@ summary(f6, standardize=T, rsquare=T)
 
 ## Constrain regressions with priors
 
-- Can constraint parameters to be close to 0, but not exactly 0
+- Can constrain parameters to be close to 0, but not exactly 0
 - Allows space the parameter to move out of the constraint if the data requires it
 - Can state specific hypothesis with priors
 
@@ -1684,8 +1684,8 @@ hypothesis(mc_out, "bet_sign[2] > .1", alpha = 0.05)
 ## What to report {.smaller}
 
 - $pd$/ROPE
-  - Which hypothesis where tested
-  - Which values where use for ROPE and why
+  - Which hypotheses were tested
+  - Which values were used for ROPE and why
 - Model fit
   - CFI and $\hat{\Gamma}$ point estimate and uncertainty
 - Model comparison
