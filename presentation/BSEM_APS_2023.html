@@ -660,7 +660,7 @@ p(\theta|y) \propto p(y|\theta)p(\theta)
 <section id="terms" class="slide level2">
 <h2>Terms</h2>
 <ul>
-<li>Iterations: number to times we want the MCMC algorithm to run (estimate)
+<li>Iterations: number of times we want the MCMC algorithm to run (estimate)
 <ul>
 <li>Burnin: number of iteration to use to calibrate the model find a stable solution</li>
 <li>Sample: number of iterations to save after burnin, to build the posterior distributions</li>
@@ -812,7 +812,7 @@ p(\theta|y) \propto p(y|\theta)p(\theta)
 <section id="prior-predictive-checks-ppc" class="slide level2">
 <h2>Prior predictive checks (PPC)</h2>
 <ul>
-<li>Generate data from the priors in order to asses whether a prior is appropriate <span class="citation" data-cites="Gabry_2019_vis">(<a href="#/references" role="doc-biblioref" onclick="">Gabry et al. 2019</a>)</span>.</li>
+<li>Generate data from the priors in order to assess whether a prior is appropriate <span class="citation" data-cites="Gabry_2019_vis">(<a href="#/references" role="doc-biblioref" onclick="">Gabry et al. 2019</a>)</span>.</li>
 <li>A posterior predictive check generates replicated data according to the posterior predictive distribution.</li>
 <li>In contrast, the prior predictive check generates data according to the prior predictive distribution</li>
 </ul>
@@ -972,7 +972,12 @@ p(\theta|y) \propto p(y|\theta)p(\theta)
 <img data-src="BSEM_APS_2023_files/figure-revealjs/unnamed-chunk-22-1.png" width="960" class="r-stretch"></section>
 <section id="measurement-models" class="slide level2">
 <h2>Measurement models</h2>
-<p>-A model is fitted to data and all models are wrong to some degree, the data may not be explained perfectly - Interpretations must involve a subjective component and solutions will not make sense - Model fit should be evaluated - Tests theoretical structure</p>
+<ul>
+<li>A model is fitted to data and all models are wrong to some degree, the data may not be explained perfectly</li>
+<li>Interpretations must involve a subjective component and solutions will not make sense</li>
+<li>Model fit should be evaluated</li>
+<li>Tests theoretical structure</li>
+</ul>
 </section>
 <section id="bayesian-cfa-2" class="slide level2">
 <h2>Bayesian CFA</h2>
@@ -1992,7 +1997,7 @@ R-Square:
 <h2>Model fit in <code>blavaan</code></h2>
 <ul>
 <li>We can directly calculate the noncentrality fit indices</li>
-<li>To estimate the incremental indices we need to estimate the <em>null</em> model fo comparison</li>
+<li>To estimate the incremental indices we need to estimate the <em>null</em> model for comparison</li>
 </ul>
 </section>
 <section id="null-model" class="slide level2">
@@ -2291,7 +2296,7 @@ BNFI         0.925  0.926 0.012 0.906 0.945</code></pre>
 <section id="bayes-factor" class="slide level2 smaller">
 <h2>Bayes factor</h2>
 <ul>
-<li>In the Bayesian literature you will the the use of the Bayes factor (BF) to compare models.</li>
+<li>In the Bayesian literature you will see the use of the Bayes factor (BF) to compare models.</li>
 <li>There are a number of criticisms related to the use of the BF in BSEM, including (1) the BF is unstable for large models (like most SEMs), (2) it is highly sensitive to model priors, (3) it requires strong priors to have stable estimation of it, (4) it can require large number of posterior draws, (5) the estimation using the marginal likelihood ignores a lot of information from the posterior distributions.</li>
 <li>For more details on this discussion please see <span class="citation" data-cites="tendeiro_review_2019">Tendeiro and Kiers (<a href="#/references" role="doc-biblioref" onclick="">2019</a>)</span> and <span class="citation" data-cites="schad_workflow_2022">Schad et al. (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span>.</li>
 <li>These criticisms lead us to recommend against use of the BF in everyday BSEM estimation.</li>
@@ -2385,7 +2390,7 @@ Laplace approximation to the log-Bayes factor
 <ul>
 <li>Small difference indicate that both models have similar out-of-sample predictive accuracy</li>
 <li>Can choose either model to continue (theory), I am keeping the residual correlations model</li>
-<li>Because the correlations are above <span class="math inline">\(r &gt; 0.2\)</span> and they are theoretical relevant</li>
+<li>Because the correlations are above <span class="math inline">\(r &gt; 0.2\)</span> and they are theoretically relevant</li>
 </ul></li>
 </ul>
 </section>
@@ -2882,7 +2887,7 @@ R-Square:
 <section id="constrain-regressions-with-priors" class="slide level2">
 <h2>Constrain regressions with priors</h2>
 <ul>
-<li>Can constraint parameters to be close to 0, but not exactly 0</li>
+<li>Can constrain parameters to be close to 0, but not exactly 0</li>
 <li>Allows space the parameter to move out of the constraint if the data requires it</li>
 <li>Can state specific hypothesis with priors</li>
 </ul>
@@ -3445,8 +3450,8 @@ Posterior probabilities of point hypotheses assume equal prior probabilities.</c
 <ul>
 <li><span class="math inline">\(pd\)</span>/ROPE
 <ul>
-<li>Which hypothesis where tested</li>
-<li>Which values where use for ROPE and why</li>
+<li>Which hypotheses were tested</li>
+<li>Which values were used for ROPE and why</li>
 </ul></li>
 <li>Model fit
 <ul>
