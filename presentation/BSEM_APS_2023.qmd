@@ -1691,7 +1691,32 @@ hypothesis(mc_out, "bet_sign[2] > .1", alpha = 0.05)
 - Model comparison
   - LOO or WAIC: IC for each model, $elpd$, $\Delta elpd$, standard error, and ratio
 
-## Resources
+## Resources {.smaller}
+
+- [Stats Camp](https://www.statscamp.org/)
+- Online
+  - [blavaan website](http://ecmerkle.github.io/blavaan/)
+  - [blavaan google group](https://groups.google.com/g/blavaan)
+  - [lavaan google group](https://groups.google.com/g/lavaan)
+  - [Stan discourse](https://discourse.mc-stan.org/)
+  - [Well Hello Stats](https://github.com/maugavilla/well_hello_stats)
+
+- Books
+  - [Bayesian Data Analysis, 3th edition](http://www.stat.columbia.edu/~gelman/book/)
+  - [Statistical Rethinking, 2nd edition](https://xcelab.net/rm/statistical-rethinking/)
+  - [Bayesian Statistics for the Social Sciences](https://www.guilford.com/books/Bayesian-Statistics-for-the-Social-Sciences/David-Kaplan/9781462516513)
+  - [Bayesian Structural Equation Modeling](https://www.guilford.com/books/Bayesian-Structural-Equation-Modeling/Sarah-Depaoli/9781462547746)
+  
+## Contact
+
+m.garniervillarreal@vu.nl
+
+[Website](https://maugavilla.github.io/)
+
+\@MauricioGarnier
+
+- Funding: Institute of Education Sciences (IES), Statistical and Research Methodology in Education. Merkle, E. C (PI), Bonifay, W., Garnier-Villarreal, M., & Rosseel, Y. Scaling Bayesian Latent Variable Models to Big Education Data.
+
 
 ## References
 
