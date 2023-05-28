@@ -1,6 +1,6 @@
 BSEM with blavaan
 ================
-Mauricio Garnier-Villarreal
+Mauricio Garnier-Villarreal & Ellen Fitzsimmons
 28 May, 2023
 
 This repository has the materials for the workshop *Bayesian SEM with
