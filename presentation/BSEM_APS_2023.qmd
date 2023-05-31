@@ -1,11 +1,16 @@
 ---
 title: "BSEM with blavaan"
-author: "Mauricio Garnier-Villarreal"
-institute: "Vrije Universiteit Amsterdam"
+author:
+  - name: Mauricio Garnier-Villarreal
+    orcid: 0000-0002-2951-6647
+    email: m.garniervillarreal@vu.nl
+    affiliations: Vrije Universiteit Amsterdam
 date: "`r format(Sys.time(), '%b %d %Y')`"
 format:
-  revealjs: 
-    theme: sky
+  revealjs:
+    theme: [default, clean.scss]
+    slide-number: true
+    date-format: long
     logo: VU_social_avatar_blauw.png
 execute: 
   cache: true    
@@ -339,7 +344,7 @@ your data
 - Account for uncertainty
 - Allow us to set clear boundaries, meaningful for the theory
 - Theory driven
-- Heps stabilize models with smaller sample sizes
+- Helps stabilize models with smaller sample sizes
 
 ## Prior: disadvantages
 - More decisions to make
