@@ -45,6 +45,7 @@ library(semPlot, quietly=TRUE)
 - Model comparison
 - BSEM: basic latent regression
 - Probability of direction
+- Local fit
 - What to report
 
 
@@ -1247,7 +1248,7 @@ bc12 <- blavCompare(f1, f2)
 #| warning: false
 #| message: false
 
-abs(bc12$diff_loo[1] / bc12$diff_loo[2])
+abs(bc12$diff_loo[,"elpd_diff"] / bc12$diff_loo[,"se_diff"])
 ```
 
 ## Model comparison
@@ -1279,7 +1280,7 @@ bc23 <- blavCompare(f2, f3)
 #| warning: false
 #| message: false
 
-abs(bc23$diff_loo[1] / bc23$diff_loo[2])
+abs(bc23$diff_loo[,"elpd_diff"] / bc23$diff_loo[,"se_diff"])
 ```
 
 ## Model comparison
@@ -1312,7 +1313,7 @@ bc34 <- blavCompare(f3, f4)
 #| warning: false
 #| message: false
 
-abs(bc34$diff_loo[1] / bc34$diff_loo[2])
+abs(bc34$diff_loo[,"elpd_diff"] / bc34$diff_loo[,"se_diff"])
 ```
 
 
@@ -1378,7 +1379,7 @@ bc45 <- blavCompare(f4, f5)
 #| warning: false
 #| message: false
 
-abs(bc45$diff_loo[1] / bc45$diff_loo[2])
+abs(bc45$diff_loo[,"elpd_diff"] / bc45$diff_loo[,"se_diff"])
 ```
 
 ## Model comparison
@@ -1527,7 +1528,7 @@ bc67 <- blavCompare(f6, f7)
 #| warning: false
 #| message: false
 
-abs(bc67$diff_loo[1] / bc67$diff_loo[2])
+abs(bc67$diff_loo[,"elpd_diff"] / bc67$diff_loo[,"se_diff"])
 ```
 
 
@@ -1554,7 +1555,7 @@ abs(bc67$diff_loo[1] / bc67$diff_loo[2])
 #| warning: false
 #| message: false
 
-mc_out <- as.matrix(blavInspect(f6, "mcmc"))
+mc_out <- as.matrix(blavInspect(f6, "mcmc", add.labels = FALSE))
 dim(mc_out)
 colnames(mc_out)
 ```
@@ -1644,7 +1645,7 @@ hypothesis(mc_out, "bet_sign[1] - bet_sign[2] > 0", alpha = 0.05)
 
 ## Region of Practical Equivalence (ROPE) {.smaler}
 
-- We would change the value tested, a common recommendations is to use ```|0.1|``` as the minimally relevant value for standardized regressions, in this case we find that ```0.77``` proportion of the posterior is above ```0.1``` 
+- We would change the value tested, a common recommendations is to use ```|0.1|``` as the minimally relevant value for standardized regressions, in this case we find that ```0.78``` proportion of the posterior is above ```0.1``` 
 
 ```{r}
 #| echo: true
@@ -1671,6 +1672,116 @@ hypothesis(mc_out, "bet_sign[2] > .1", alpha = 0.05)
 - Although this allows testing of hypotheses in a similar manner as in the frequentist null-hypothesis testing framework, we strongly argue against using arbitrary cutoffs (e.g., $p < .05$) to determine the 'existence' of an effect.
 - ROPE is sensitive to scale, so be aware that the value of interest is representative in the respective scale. For this, standardize parameters are useful to have in a commonly used scale
 
+# Local fit
+
+## Local fit
+- Evaluates *local fit*, misfit related to a specific part of the model (like failing to reproduce a pairwise correlation)
+- Residual correlations can be used to *diagnose* the problem, but doesnt indicate how to fix it
+- Modification indices [@whittaker_using_2012]
+  - Lagrange approximation of the expected improvement in model fit ($\chi^2$) if a parameter is added (MI)
+  - Approximate the standardized expected parameter change (SEPC), *what would the standardized parameter be?*
+  - Use to test the worth of **adding** a parameter that was not included in the original model
+  
+## Bayesian Modification Indices
+- We are able to estimate their Bayesian version with PPMC
+- PPMC: Posterior Predictive Model checks
+  - Post calculate *something* at each draw of the posterior distribution
+  - Build posterior distributions of the new calculation
+  - We can do this for MI and SEPC
+- Changes to the model should be **theoretically** defensible
+
+## Bayesian Modification Indices
+- Basic measurement model (weakly informative priors)
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(f2, rsquare=T)
+```
+
+## Bayesian Modification Indices
+- Write a function to do the desire post calculation 
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+discFUN <- list(
+  mod.ind_mi = function(object){
+    temp <- modificationindices(object, free.remove = F)
+    mods <- temp$mi
+    names(mods) <- paste0(temp$lhs, temp$op, temp$rhs)
+    return(mods)
+  },
+  mod.ind_sepc.all = function(object){
+    temp <- modificationindices(object, free.remove = F)
+    sepc.all <- temp$sepc.all
+    names(sepc.all) <- paste0(temp$lhs, temp$op, temp$rhs)
+    return(sepc.all)
+  }
+)
+```
+
+
+
+## Bayesian Modification Indices
+- Pass this function to the ```ppmc()``` function of ```blavaan```. With this function, the MI and SEPC are computed for each posterior sample, leading to posterior distributions for each of them
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+out <- ppmc(f2, discFUN = discFUN)
+```
+
+## Bayesian Modification Indices
+- See the top 5 parameters to add in function of MI mean
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(out, prob=.9, discFUN = "mod.ind_mi", sort.by="EAP", decreasing=T)[1:5,]
+```
+
+## Bayesian Modification Indices
+- See the top 5 parameters to add in function of MI median
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(out, prob=.9, discFUN = "mod.ind_mi", sort.by="Median", decreasing=T)[1:5,]
+```
+
+
+## Bayesian Modification Indices
+- See the top 5 parameters to add in function of SEPC mean
+```{r}
+#| echo: true
+#| code-fold: false
+#| eval: true
+#| warning: false
+#| message: false
+
+summary(out, prob=.9, discFUN = "mod.ind_sepc.all", sort.by="EAP", decreasing=T)[1:5,]
+```
+
+## Bayesian Modification Indices
+- We tested them with a simulation, paper under review
+- Use MI to identify the *best* parameters to add
+- Use SEPC to approximate the effect size of the respective parameters
 
 # What to report
 
@@ -1693,6 +1804,7 @@ hypothesis(mc_out, "bet_sign[2] > .1", alpha = 0.05)
   - Which values were used for ROPE and why
 - Model fit
   - CFI and $\hat{\Gamma}$ point estimate and uncertainty
+  - Changes made in function of local misfit (like modification indices)
 - Model comparison
   - LOO or WAIC: IC for each model, $elpd$, $\Delta elpd$, standard error, and ratio
 
@@ -1711,6 +1823,7 @@ hypothesis(mc_out, "bet_sign[2] > .1", alpha = 0.05)
   - [Statistical Rethinking, 2nd edition](https://xcelab.net/rm/statistical-rethinking/)
   - [Bayesian Statistics for the Social Sciences](https://www.guilford.com/books/Bayesian-Statistics-for-the-Social-Sciences/David-Kaplan/9781462516513)
   - [Bayesian Structural Equation Modeling](https://www.guilford.com/books/Bayesian-Structural-Equation-Modeling/Sarah-Depaoli/9781462547746)
+  - [Longitudinal Structural Equation Modeling, 2nd edition](https://www.guilford.com/books/Longitudinal-Structural-Equation-Modeling/Todd-Little/9781462553143)
   
 ## Contact
 
