@@ -397,3 +397,33 @@ hypothesis(mc_out, "bet_sign[1] > 0", alpha = 0.05)
 hypothesis(mc_out, "bet_sign[1] - bet_sign[2] > 0", alpha = 0.05)
 
 hypothesis(mc_out, "bet_sign[2] > .1", alpha = 0.05)
+
+
+###
+### Local fit - Modification indices
+###
+
+summary(f2, rsquare=T)
+
+discFUN <- list(
+  mod.ind_mi = function(object){
+    temp <- modificationindices(object, free.remove = F)
+    mods <- temp$mi
+    names(mods) <- paste0(temp$lhs, temp$op, temp$rhs)
+    return(mods)
+  },
+  mod.ind_sepc.all = function(object){
+    temp <- modificationindices(object, free.remove = F)
+    sepc.all <- temp$sepc.all
+    names(sepc.all) <- paste0(temp$lhs, temp$op, temp$rhs)
+    return(sepc.all)
+  }
+)
+
+out <- ppmc(f2, discFUN = discFUN)
+
+summary(out, prob=.9, discFUN = "mod.ind_mi", sort.by="EAP", decreasing=T)[1:5,]
+
+summary(out, prob=.9, discFUN = "mod.ind_mi", sort.by="Median", decreasing=T)[1:5,]
+
+summary(out, prob=.9, discFUN = "mod.ind_sepc.all", sort.by="EAP", decreasing=T)[1:5,]
